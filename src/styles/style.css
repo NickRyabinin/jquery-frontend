@@ -1,0 +1,27 @@
+:root {
+  --font-normal: 14px;
+  --font-small: 10px;
+}
+
+@font-face {
+  font-weight: 400;
+  font-family: "Open Sans";
+  src: url("../assets/fonts/Open_Sans/OpenSans-Regular.ttf");
+}
+
+@font-face {
+  font-weight: 700;
+  font-family: "Open Sans";
+  src: url("../assets/fonts/Open_Sans/OpenSans-Bold.ttf");
+}
+
+.bg-dark {
+  background-color: rgb(61, 61, 57);
+  width: 100%;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}

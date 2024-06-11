@@ -6,12 +6,26 @@
     <meta name="description" content="jQuery frontend for CRUD API (http://php-crud-api.alwaysdata.net/)">
     <meta name="keywords" content="jQuery, javascript, js">
     <meta name="author" content="Николай Рябинин">
-    <script src="./scripts/jquery-3.7.1.min.js"></script>
     <title>jQuery frontend</title>
+    <link rel="stylesheet" href="./styles/style.css">
+    <script src="./scripts/jquery-3.7.1.min.js"></script>
   </head>
   <body class="bg-dark">
     <header>
-      <nav></nav>
+      <nav>
+        <ul class="menu">
+          <li>Home</li>
+          <li>Users</li>
+          <li class="books">Books
+            <ul class="submenu">
+              <li>Create</li>
+              <li>Read</li>
+              <li>Update</li>
+              <li>Delete</li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
     </header>
     <main></main>
     <footer></footer>

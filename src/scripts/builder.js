@@ -1,5 +1,6 @@
 function buildTable(data) {
-  const table = $('<table>');
+  const table = $('table');
+  table.empty();
   const thead = $('<thead>');
   const headerTr = $('<tr>');
   const tbody = $('<tbody>');

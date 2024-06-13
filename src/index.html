@@ -15,9 +15,16 @@
       <nav>
         <ul class="menu">
           <li>Home</li>
-          <li>Users</li>
+          <li class="users">Users
+            <ul class="usersSubmenu submenu">
+              <li>Create</li>
+              <li>Read</li>
+              <li>Update</li>
+              <li>Delete</li>
+            </ul>
+          </li>
           <li class="books">Books
-            <ul class="submenu">
+            <ul class="booksSubmenu submenu">
               <li>Create</li>
               <li>Read</li>
               <li>Update</li>
@@ -27,7 +34,10 @@
         </ul>
       </nav>
     </header>
-    <main></main>
+    <main>
+      <form></form>
+      <table></table>
+    </main>
     <footer></footer>
     <script type="module" src="./scripts/main.js"></script>
     <script type="module" src="./scripts/builder.js"></script>

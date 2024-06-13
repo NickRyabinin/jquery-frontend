@@ -49,3 +49,17 @@ a {
 li {
   padding: 10px;
 }
+
+.submenu li {
+  padding-left: 0px;
+  margin-left: -25px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid wheat;
+  padding: 5px;
+}

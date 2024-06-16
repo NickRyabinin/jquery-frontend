@@ -1,6 +1,7 @@
 function buildTable(data) {
   const table = $('table');
   table.empty();
+  $('form').empty();
   const thead = $('<thead>');
   const headerTr = $('<tr>');
   const tbody = $('<tbody>');
@@ -26,4 +27,27 @@ function buildTable(data) {
   return table;
 }
 
-export { buildTable };
+function buildForm(data) {
+  const form = $('form');
+  $('table').empty();
+  form.empty();
+
+  data.forEach((title) => {
+    const input = $('<input></input>');
+    input.attr({
+      "type": "text",
+      "id": title,
+      "placeholder": title
+    });
+
+    form.append(input, '<br>');
+    // form.append('<br>');
+  });
+
+  const button = $('<button>Отправить</button>');
+  form.append(button);
+
+  return form;
+}
+
+export { buildTable, buildForm };

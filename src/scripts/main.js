@@ -2,6 +2,8 @@
 import { createUser, readUser, updateUser, deleteUser } from "./user.js";
 import { createBook, readBook, updateBook, deleteBook } from "./book.js";
 
+const apiUrl = "http://php-crud-api.alwaysdata.net/";
+
 $(document).ready(function() {
   $('.users').click(function() {
     $('.booksSubmenu').slideUp();
@@ -49,3 +51,5 @@ $(document).ready(function() {
     }
   });
 });
+
+export { apiUrl };

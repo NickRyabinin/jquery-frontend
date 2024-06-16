@@ -1,3 +1,4 @@
+import { apiUrl } from "./main.js";
 import { buildTable } from "./builder.js";
 
 function createBook() {
@@ -5,7 +6,7 @@ function createBook() {
 }
 
 function readBook(id = "") {
-  $.get("http://php-crud-api.alwaysdata.net/books/" + id, function(data, status){
+  $.get(apiUrl + "books/" + id, function(data, status) {
     if (status === 'success') {
       const tableElement = buildTable(data);
       $('main').append(tableElement);

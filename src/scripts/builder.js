@@ -1,7 +1,7 @@
 function buildTable(data) {
+  clearContent();
+
   const table = $('table');
-  table.empty();
-  $('form').empty();
   const thead = $('<thead>');
   const headerTr = $('<tr>');
   const tbody = $('<tbody>');
@@ -28,9 +28,9 @@ function buildTable(data) {
 }
 
 function buildForm(data) {
+  clearContent();
+
   const form = $('form');
-  $('table').empty();
-  form.empty();
 
   data.forEach((title) => {
     const input = $('<input></input>');
@@ -41,7 +41,6 @@ function buildForm(data) {
     });
 
     form.append(input, '<br>');
-    // form.append('<br>');
   });
 
   const button = $('<button>Отправить</button>');
@@ -50,4 +49,8 @@ function buildForm(data) {
   return form;
 }
 
-export { buildTable, buildForm };
+function clearContent() {
+  $('section, form, table').empty();
+}
+
+export { buildTable, buildForm, clearContent };

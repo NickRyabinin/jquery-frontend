@@ -1,4 +1,5 @@
 /** */
+import { getHomePage } from "./home.js";
 import { createUser, readUser, updateUser, deleteUser } from "./user.js";
 import { createBook, readBook, updateBook, deleteBook } from "./book.js";
 
@@ -14,6 +15,10 @@ $(document).ready(function() {
     $('.usersSubmenu').slideUp();
     $('.booksSubmenu').slideToggle();
   });
+
+  $('#home').click(function() {
+    getHomePage();
+  })
 
   $('.usersSubmenu li').click(function() {
     const action = $(this).text();
@@ -51,5 +56,7 @@ $(document).ready(function() {
     }
   });
 });
+
+getHomePage();
 
 export { apiUrl };

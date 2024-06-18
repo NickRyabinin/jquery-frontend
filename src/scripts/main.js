@@ -1,6 +1,6 @@
 /** */
 import { getHomePage } from "./home.js";
-import { createUser, readUser, updateUser, deleteUser } from "./user.js";
+import { authorizeUser, createUser, readUser, updateUser, deleteUser } from "./user.js";
 import { createBook, readBook, updateBook, deleteBook } from "./book.js";
 
 const apiUrl = "http://php-crud-api.alwaysdata.net/";
@@ -23,6 +23,9 @@ $(document).ready(function() {
   $('.usersSubmenu li').click(function() {
     const action = $(this).text();
     switch(action) {
+      case 'Authorize':
+        authorizeUser();
+        break;
       case 'Create':
         createUser();
         break;

@@ -1,6 +1,20 @@
 import { apiUrl } from "./main.js";
 import { buildTable, buildForm } from "./builder.js";
 
+function authorizeUser() {
+  const fillableProperties = ['token'];
+  const form = buildForm(fillableProperties);
+  $('main').append(form);
+
+  form.submit(function (event) {
+    event.preventDefault();
+
+    const token = $('#token').val();
+    sessionStorage.setItem('token', token);
+    alert('User authorized with token:\n' + token);
+  });
+}
+
 function createUser() {
   const fillableProperties = ["login", "email"];
   const form = buildForm(fillableProperties);
@@ -50,4 +64,4 @@ function deleteUser() {
   alert('Delete function called');
 }
 
-export { createUser, readUser, updateUser, deleteUser };
+export { authorizeUser, createUser, readUser, updateUser, deleteUser };

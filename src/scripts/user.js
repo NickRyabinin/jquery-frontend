@@ -12,7 +12,11 @@ function authorizeUser() {
     const token = $('#token').val();
     sessionStorage.setItem('token', token);
     alert('User authorized with token:\n' + token);
+
+    form.off('submit');
   });
+
+  return;
 }
 
 function createUser() {
@@ -36,6 +40,8 @@ function createUser() {
         const errorResponse = JSON.parse(jqXHR.responseText);
         alert("Ошибка: " + errorResponse.error);
       });
+
+    form.off('submit');
   });
 }
 

@@ -17,15 +17,6 @@ function createBook() {
 
     const token = sessionStorage.getItem('token');
 
-    /* $.post(apiUrl + "books/", formData)
-      .done(function (responseData) {
-        alert(responseData.message);
-      })
-      .fail(function (jqXHR) {
-        const errorResponse = JSON.parse(jqXHR.responseText);
-        alert("Ошибка: " + errorResponse.error);
-      }); */
-
     $.ajax({
       url: apiUrl + "books/",
       type: 'POST',
@@ -68,7 +59,34 @@ function updateBook() {
 }
 
 function deleteBook() {
-  alert('Delete function called');
+  const fillableProperties = ["id"];
+  const form = buildForm(fillableProperties);
+  $('main').append(form);
+
+  form.submit(function (event) {
+    event.preventDefault();
+
+    const id = $('#id').val();
+
+    const token = sessionStorage.getItem('token');
+
+    $.ajax({
+      url: apiUrl + "books/" + id,
+      type: 'DELETE',
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+      },
+      success: function (responseData) {
+        alert(responseData.message);
+      },
+      error: function (jqXHR) {
+        const errorResponse = JSON.parse(jqXHR.responseText);
+        alert("Ошибка: " + errorResponse.error);
+      }
+    });
+
+    form.off('submit');
+  });
 }
 
 export { createBook, readBook, updateBook, deleteBook };

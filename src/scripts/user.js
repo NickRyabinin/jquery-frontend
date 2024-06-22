@@ -67,7 +67,23 @@ function updateUser() {
 }
 
 function deleteUser() {
-  alert('Delete function called');
+  const token = sessionStorage.getItem('token');
+
+  $.ajax({
+    url: apiUrl + "users/",
+    type: 'DELETE',
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+    },
+    success: function (responseData) {
+      sessionStorage.removeItem('token');
+      alert(responseData.message);
+    },
+    error: function (jqXHR) {
+      const errorResponse = JSON.parse(jqXHR.responseText);
+      alert("Ошибка: " + errorResponse.error);
+    }
+  });
 }
 
 export { authorizeUser, createUser, readUser, updateUser, deleteUser };

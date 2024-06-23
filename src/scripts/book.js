@@ -55,7 +55,72 @@ function readBook(id = "") {
 }
 
 function updateBook() {
-  alert('Update function called');
+  let id = null;
+  let isFirstFormSubmitted = false;
+
+  const fillableProperties = ["id"];
+  const form = buildForm(fillableProperties);
+  $('main').append(form);
+
+  form.submit(function (event) {
+    event.preventDefault();
+    id = $('#id').val();
+    isFirstFormSubmitted = true;
+    form.off();
+    buildNextForm(isFirstFormSubmitted, id);
+  });
+}
+
+function buildNextForm(isFirstFormSubmitted, id) {
+  if (isFirstFormSubmitted) {
+    const fillableProperties = ["title", "author", "published_at"];
+    const form = buildForm(fillableProperties);
+    $('main').append(form);
+
+    form.submit(function (event) {
+      event.preventDefault();
+
+      const rawFormData = {};
+
+      const title = $('#title').val();
+      const author = $('#author').val();
+      const publishedAt = $('#published_at').val();
+
+      if (title !== '') {
+        rawFormData.title = title;
+      }
+
+      if (author !== '') {
+        rawFormData.author = author;
+      }
+
+      if (publishedAt !== '') {
+        rawFormData.published_at = publishedAt;
+      }
+
+      const formData = JSON.stringify(rawFormData);
+
+      const token = sessionStorage.getItem('token');
+
+      $.ajax({
+        url: apiUrl + "books/" + id,
+        type: 'PUT',
+        data: formData,
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        },
+        success: function (responseData) {
+          alert(responseData.message);
+        },
+        error: function (jqXHR) {
+          const errorResponse = JSON.parse(jqXHR.responseText);
+          alert("Ошибка: " + errorResponse.error);
+        }
+      });
+
+      form.off('submit');
+    });
+  }
 }
 
 function deleteBook() {

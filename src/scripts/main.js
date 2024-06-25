@@ -1,6 +1,6 @@
 /** */
 import { getHomePage } from "./home.js";
-import { authorizeUser, createUser, readUser, updateUser, deleteUser } from "./user.js";
+import { authorizeUser, createUser, readUser, deleteUser } from "./user.js";
 import { createBook, readBook, updateBook, deleteBook } from "./book.js";
 
 const apiUrl = "http://php-crud-api.alwaysdata.net/";
@@ -17,6 +17,8 @@ $(document).ready(function() {
   });
 
   $('#home').click(function() {
+    $('.booksSubmenu').slideUp();
+    $('.usersSubmenu').slideUp();
     getHomePage();
   })
 
@@ -33,7 +35,6 @@ $(document).ready(function() {
         readUser();
         break;
       case 'Update':
-        updateUser();
         break;
       case 'Delete':
         deleteUser();

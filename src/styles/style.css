@@ -1,6 +1,7 @@
 :root {
-  --font-normal: 14px;
-  --font-small: 10px;
+  --font-large: 20px;
+  --font-normal: 16px;
+  --font-small: 12px;
 }
 
 @font-face {
@@ -37,6 +38,8 @@ a {
 .menu {
   display: flex;
   list-style: none;
+  font-size: var(--font-large);
+  color: lightgreen;
 }
 
 .submenu {
@@ -44,6 +47,7 @@ a {
   position: absolute;
   list-style: none;
   background: black;
+  font-size: var(--font-normal);
 }
 
 li {
@@ -62,4 +66,18 @@ table {
 td, th {
   border: 1px solid wheat;
   padding: 5px;
+}
+
+.inactive {
+  color: gray;
+}
+
+input {
+  margin-bottom: 5px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

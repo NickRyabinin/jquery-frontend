@@ -62,10 +62,6 @@ function readUser(id = "") {
   });
 }
 
-function updateUser() {
-  alert('Update function called');
-}
-
 function deleteUser() {
   const token = sessionStorage.getItem('token');
 
@@ -86,4 +82,4 @@ function deleteUser() {
   });
 }
 
-export { authorizeUser, createUser, readUser, updateUser, deleteUser };
+export { authorizeUser, createUser, readUser, deleteUser };

@@ -46,8 +46,9 @@ function createUser() {
 }
 
 function readUser(id = "") {
-  $.get(apiUrl + "users/" + id, function (data, status) {
+  $.get(apiUrl + "users/" + id, function (rawData, status) {
     if (status === 'success') {
+      let data = (id === "") ? rawData['items'] : rawData;
       const tableElement = buildTable(data);
       $('main').append(tableElement);
 

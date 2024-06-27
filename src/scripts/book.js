@@ -38,8 +38,9 @@ function createBook() {
 }
 
 function readBook(id = "") {
-  $.get(apiUrl + "books/" + id, function (data, status) {
+  $.get(apiUrl + "books/" + id, function (rawData, status) {
     if (status === 'success') {
+      let data = (id === "") ? rawData['items'] : rawData;
       const tableElement = buildTable(data);
       $('main').append(tableElement);
 

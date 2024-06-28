@@ -50,7 +50,19 @@ function buildForm(data) {
 }
 
 function clearContent() {
-  $('section, form, table').empty();
+  $('section, form, table, #pagination-buttons').empty();
 }
 
-export { buildTable, buildForm, clearContent };
+function buildPaginationButtons() {
+  const buttonsContainer = $('<div></div>');
+  buttonsContainer.attr({"id": "pagination-buttons"});
+  const left = $('<button><</button>');
+  const first = $('<button>1</button>');
+  const right = $('<button>></button>');
+
+  buttonsContainer.append(left, first, right);
+
+  return buttonsContainer;
+}
+
+export { buildTable, buildForm, clearContent, buildPaginationButtons };

@@ -61,6 +61,7 @@ li {
 
 table {
   border-collapse: collapse;
+  margin: 10px;
 }
 
 td, th {
@@ -80,4 +81,8 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#pagination-buttons button {
+  margin: 0 3px;
 }

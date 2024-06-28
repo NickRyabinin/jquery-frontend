@@ -1,5 +1,5 @@
 import { apiUrl } from "./main.js";
-import { buildTable, buildForm } from "./builder.js";
+import { buildTable, buildForm, buildPaginationButtons } from "./builder.js";
 
 function authorizeUser() {
   const fillableProperties = ['token'];
@@ -50,7 +50,8 @@ function readUser(id = "") {
     if (status === 'success') {
       let data = (id === "") ? rawData['items'] : rawData;
       const tableElement = buildTable(data);
-      $('main').append(tableElement);
+      const paginationButtons = buildPaginationButtons();
+      $('main').append(tableElement, paginationButtons);
 
       $('td').click(function () {
         if ($(this).index() === $('th:contains("id")').index()) {

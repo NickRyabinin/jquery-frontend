@@ -60,6 +60,10 @@ function buildPaginationButtons() {
   const first = $('<button>1</button>');
   const right = $('<button>></button>');
 
+  left.attr({"id": "pagination-left"});
+  first.attr({"id": "pagination-first"});
+  right.attr({"id": "pagination-right"});
+
   buttonsContainer.append(left, first, right);
 
   return buttonsContainer;

@@ -45,13 +45,18 @@ function createUser() {
   });
 }
 
-function readUser(id = "") {
-  $.get(apiUrl + "users/" + id, function (rawData, status) {
-    if (status === 'success') {
+function readUser(id = "", page = 1) {
+  let query = (id === "") ? '?page=' + page : "";
+  $.get(apiUrl + "users/" + id + query)
+    .done(function (rawData) {
       let data = (id === "") ? rawData['items'] : rawData;
       const tableElement = buildTable(data);
-      const paginationButtons = buildPaginationButtons();
-      $('main').append(tableElement, paginationButtons);
+      $('main').append(tableElement);
+      if (id === "") {
+        const paginationButtons = buildPaginationButtons();
+        $('main').append(paginationButtons);
+        setPaginationActions(page);
+      }
 
       $('td').click(function () {
         if ($(this).index() === $('th:contains("id")').index()) {
@@ -60,8 +65,11 @@ function readUser(id = "") {
           }
         }
       });
-    }
-  });
+    })
+    .fail(function (jqXHR) {
+      const errorResponse = JSON.parse(jqXHR.responseText);
+      alert("Ошибка: " + errorResponse.error);
+    });
 }
 
 function deleteUser() {
@@ -81,6 +89,18 @@ function deleteUser() {
       const errorResponse = JSON.parse(jqXHR.responseText);
       alert("Ошибка: " + errorResponse.error);
     }
+  });
+}
+
+function setPaginationActions(page) {
+  $('#pagination-left').click(function () {
+    readUser('', page - 1)
+  });
+  $('#pagination-first').click(function () {
+    readUser('', 1)
+  });
+  $('#pagination-right').click(function () {
+    readUser('', page + 1)
   });
 }
 

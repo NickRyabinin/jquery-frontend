@@ -69,4 +69,16 @@ function buildPaginationButtons() {
   return buttonsContainer;
 }
 
-export { buildTable, buildForm, clearContent, buildPaginationButtons };
+function setPaginationActions(page, callback) {
+  $('#pagination-left').click(function () {
+    callback('', page - 1)
+  });
+  $('#pagination-first').click(function () {
+    callback('', 1)
+  });
+  $('#pagination-right').click(function () {
+    callback('', page + 1)
+  });
+}
+
+export { buildTable, buildForm, clearContent, buildPaginationButtons, setPaginationActions };

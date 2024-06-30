@@ -1,5 +1,5 @@
 import { apiUrl } from "./main.js";
-import { buildTable, buildForm, buildPaginationButtons } from "./builder.js";
+import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
 
 function createBook() {
   const fillableProperties = ["title", "author", "published_at"];
@@ -37,13 +37,18 @@ function createBook() {
   });
 }
 
-function readBook(id = "") {
-  $.get(apiUrl + "books/" + id, function (rawData, status) {
-    if (status === 'success') {
+function readBook(id = "", page = 1) {
+  let query = (id === "") ? '?page=' + page : "";
+  $.get(apiUrl + "books/" + id + query)
+    .done(function (rawData) {
       let data = (id === "") ? rawData['items'] : rawData;
       const tableElement = buildTable(data);
-      const paginationButtons = buildPaginationButtons();
-      $('main').append(tableElement, paginationButtons);
+      $('main').append(tableElement);
+      if (id === "") {
+        const paginationButtons = buildPaginationButtons();
+        $('main').append(paginationButtons);
+        setPaginationActions(page, readBook);
+      }
 
       $('td').click(function () {
         if ($(this).index() === $('th:contains("id")').index()) {
@@ -52,8 +57,11 @@ function readBook(id = "") {
           }
         }
       });
-    }
-  });
+    })
+    .fail(function (jqXHR) {
+      const errorResponse = JSON.parse(jqXHR.responseText);
+      alert("Ошибка: " + errorResponse.error);
+    });
 }
 
 function updateBook() {

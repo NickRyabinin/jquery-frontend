@@ -1,5 +1,5 @@
 import { apiUrl } from "./main.js";
-import { buildTable, buildForm, buildPaginationButtons } from "./builder.js";
+import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
 
 function authorizeUser() {
   const fillableProperties = ['token'];
@@ -55,7 +55,7 @@ function readUser(id = "", page = 1) {
       if (id === "") {
         const paginationButtons = buildPaginationButtons();
         $('main').append(paginationButtons);
-        setPaginationActions(page);
+        setPaginationActions(page, readUser);
       }
 
       $('td').click(function () {
@@ -89,18 +89,6 @@ function deleteUser() {
       const errorResponse = JSON.parse(jqXHR.responseText);
       alert("Ошибка: " + errorResponse.error);
     }
-  });
-}
-
-function setPaginationActions(page) {
-  $('#pagination-left').click(function () {
-    readUser('', page - 1)
-  });
-  $('#pagination-first').click(function () {
-    readUser('', 1)
-  });
-  $('#pagination-right').click(function () {
-    readUser('', page + 1)
   });
 }
 

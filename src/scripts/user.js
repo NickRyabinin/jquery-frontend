@@ -55,7 +55,7 @@ function readUser(id = "", page = 1) {
       if (id === "") {
         const paginationButtons = buildPaginationButtons();
         $('main').append(paginationButtons);
-        setPaginationActions(page, readUser);
+        setPaginationActions(readUser, page);
       }
 
       $('td').click(function () {

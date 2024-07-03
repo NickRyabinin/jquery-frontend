@@ -1,9 +1,9 @@
 import { apiUrl } from "./main.js";
 import { buildTable, buildForm, buildPaginationButtons, setPaginationActions, clearContent } from "./builder.js";
 
-function readOpinion(bookId = "", opinionId = "", page = 1) {
+function readOpinion(bookId = "", page = 1, opinionId = "") {
   if (bookId) {
-    getOpinionData(bookId, opinionId, page);
+    getOpinionData(bookId, page, opinionId);
   } else {
     let isFirstFormSubmitted = false;
     const fillableProperties = ["id"];
@@ -15,12 +15,12 @@ function readOpinion(bookId = "", opinionId = "", page = 1) {
       isFirstFormSubmitted = true;
       form.off();
       if (isFirstFormSubmitted) {
-        getOpinionData(bookId, opinionId, page);
+        getOpinionData(bookId, page, opinionId);
       }
     });
   }
 
-  function getOpinionData(bookId, opinionId, page) {
+  function getOpinionData(bookId, page, opinionId) {
     let query = (opinionId === "") ? '?page=' + page : "";
     $.get(apiUrl + "books/" + bookId + "/opinions/" + opinionId + query)
       .done(function (rawData) {
@@ -30,12 +30,12 @@ function readOpinion(bookId = "", opinionId = "", page = 1) {
         if (opinionId === "") {
           const paginationButtons = buildPaginationButtons();
           $('main').append(paginationButtons);
-          setPaginationActions(page, readOpinion);
+          setPaginationActions(readOpinion, page, bookId);
         }
         $('td').click(function () {
           if ($(this).index() === $('th:contains("id")').index()) {
             if ($(this).text()) {
-              readOpinion(bookId, $(this).text());
+              readOpinion(bookId, "", $(this).text());
             }
           }
         });

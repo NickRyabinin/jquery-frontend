@@ -69,15 +69,15 @@ function buildPaginationButtons() {
   return buttonsContainer;
 }
 
-function setPaginationActions(page, callback) {
+function setPaginationActions(callback, page, parentId = "") {
   $('#pagination-left').click(function () {
-    callback('', page - 1)
+    callback(parentId, page > 1 ? page - 1 : page)
   });
   $('#pagination-first').click(function () {
-    callback('', 1)
+    callback(parentId, 1)
   });
   $('#pagination-right').click(function () {
-    callback('', page + 1)
+    callback(parentId, page + 1)
   });
 }
 

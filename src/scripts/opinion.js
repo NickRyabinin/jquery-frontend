@@ -1,6 +1,52 @@
 import { apiUrl } from "./main.js";
 import { buildTable, buildForm, buildPaginationButtons, setPaginationActions, clearContent } from "./builder.js";
 
+function createOpinion() {
+  let isFirstFormSubmitted = false;
+  let fillableProperties = ["id"];
+  let form = buildForm(fillableProperties);
+  $('main').append(form);
+  form.submit(function (event) {
+    event.preventDefault();
+    const bookId = $('#id').val();
+    isFirstFormSubmitted = true;
+    form.off();
+    if (isFirstFormSubmitted) {
+      fillableProperties = ["opinion"];
+      form = buildForm(fillableProperties);
+      $('main').append(form);
+
+      form.submit(function (event) {
+        event.preventDefault();
+
+        const formData = JSON.stringify({
+          "opinion": $('#opinion').val()
+        });
+
+        const token = sessionStorage.getItem('token');
+
+        $.ajax({
+          url: apiUrl + "books/" + bookId + "/opinions",
+          type: 'POST',
+          data: formData,
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+          },
+          success: function (responseData) {
+            alert(responseData.message);
+          },
+          error: function (jqXHR) {
+            const errorResponse = JSON.parse(jqXHR.responseText);
+            alert("Ошибка: " + errorResponse.error);
+          }
+        });
+
+        form.off('submit');
+      });
+    }
+  });
+}
+
 function readOpinion(bookId = "", page = 1, opinionId = "") {
   if (bookId) {
     getOpinionData(bookId, page, opinionId);
@@ -33,7 +79,7 @@ function readOpinion(bookId = "", page = 1, opinionId = "") {
           setPaginationActions(readOpinion, page, bookId);
         }
         $('td').click(function () {
-          if ($(this).index() === $('th:contains("id")').index()) {
+          if ($(this).index() === $('th:contains("opinion_id")').index()) {
             if ($(this).text()) {
               readOpinion(bookId, "", $(this).text());
             }
@@ -48,4 +94,4 @@ function readOpinion(bookId = "", page = 1, opinionId = "") {
   }
 }
 
-export { readOpinion };
+export { readOpinion, createOpinion };

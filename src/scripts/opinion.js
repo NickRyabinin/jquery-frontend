@@ -94,4 +94,46 @@ function readOpinion(bookId = "", page = 1, opinionId = "") {
   }
 }
 
-export { readOpinion, createOpinion };
+function deleteOpinion() {
+  let isFirstFormSubmitted = false;
+  let fillableProperties = ["book_id"];
+  let form = buildForm(fillableProperties);
+  $('main').append(form);
+  form.submit(function (event) {
+    event.preventDefault();
+    const bookId = $('#book_id').val();
+    isFirstFormSubmitted = true;
+    form.off();
+    if (isFirstFormSubmitted) {
+      fillableProperties = ["opinion_id"];
+      form = buildForm(fillableProperties);
+      $('main').append(form);
+
+      form.submit(function (event) {
+        event.preventDefault();
+
+        const opinionId = $('#opinion_id').val();
+        const token = sessionStorage.getItem('token');
+
+        $.ajax({
+          url: apiUrl + "books/" + bookId + "/opinions/" + opinionId,
+          type: 'DELETE',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+          },
+          success: function (responseData) {
+            alert(responseData.message);
+          },
+          error: function (jqXHR) {
+            const errorResponse = JSON.parse(jqXHR.responseText);
+            alert("Ошибка: " + errorResponse.error);
+          }
+        });
+
+        form.off('submit');
+      });
+    }
+  });
+}
+
+export { readOpinion, createOpinion, deleteOpinion };

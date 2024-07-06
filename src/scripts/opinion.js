@@ -3,12 +3,12 @@ import { buildTable, buildForm, buildPaginationButtons, setPaginationActions, cl
 
 function createOpinion() {
   let isFirstFormSubmitted = false;
-  let fillableProperties = ["id"];
+  let fillableProperties = ["book_id"];
   let form = buildForm(fillableProperties);
   $('main').append(form);
   form.submit(function (event) {
     event.preventDefault();
-    const bookId = $('#id').val();
+    const bookId = $('#book_id').val();
     isFirstFormSubmitted = true;
     form.off();
     if (isFirstFormSubmitted) {
@@ -52,12 +52,12 @@ function readOpinion(bookId = "", page = 1, opinionId = "") {
     getOpinionData(bookId, page, opinionId);
   } else {
     let isFirstFormSubmitted = false;
-    const fillableProperties = ["id"];
+    const fillableProperties = ["book_id"];
     const form = buildForm(fillableProperties);
     $('main').append(form);
     form.submit(function (event) {
       event.preventDefault();
-      const bookId = $('#id').val();
+      const bookId = $('#book_id').val();
       isFirstFormSubmitted = true;
       form.off();
       if (isFirstFormSubmitted) {
@@ -92,6 +92,66 @@ function readOpinion(bookId = "", page = 1, opinionId = "") {
         clearContent();
       });
   }
+}
+
+function updateOpinion() {
+  let isFirstFormSubmitted = false;
+  let fillableProperties = ["book_id"];
+  let form = buildForm(fillableProperties);
+  $('main').append(form);
+  form.submit(function (event) {
+    event.preventDefault();
+    const bookId = $('#book_id').val();
+    isFirstFormSubmitted = true;
+    form.off();
+    if (isFirstFormSubmitted) {
+      let isSecondFormSubmitted = false;
+      fillableProperties = ["opinion_id"];
+      form = buildForm(fillableProperties);
+      $('main').append(form);
+
+      form.submit(function (event) {
+        event.preventDefault();
+        const opinionId = $('#opinion_id').val();
+        isSecondFormSubmitted = true;
+        form.off();
+
+        if (isSecondFormSubmitted) {
+          fillableProperties = ["opinion"];
+          form = buildForm(fillableProperties);
+          $('main').append(form);
+
+          form.submit(function (event) {
+            event.preventDefault();
+
+            const formData = JSON.stringify({
+              "opinion": $('#opinion').val()
+            });
+
+            const token = sessionStorage.getItem('token');
+
+            $.ajax({
+              url: apiUrl + "books/" + bookId + "/opinions/" + opinionId,
+              type: 'PUT',
+              data: formData,
+              beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+              },
+              success: function (responseData) {
+                alert(responseData.message);
+              },
+              error: function (jqXHR) {
+                const errorResponse = JSON.parse(jqXHR.responseText);
+                alert("Ошибка: " + errorResponse.error);
+              }
+            });
+
+            form.off('submit');
+          });
+        }
+      });
+    }
+  });
 }
 
 function deleteOpinion() {
@@ -136,4 +196,4 @@ function deleteOpinion() {
   });
 }
 
-export { readOpinion, createOpinion, deleteOpinion };
+export { createOpinion, readOpinion, updateOpinion, deleteOpinion };

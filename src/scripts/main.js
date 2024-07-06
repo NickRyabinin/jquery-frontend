@@ -2,7 +2,7 @@
 import { getHomePage } from "./home.js";
 import { authorizeUser, createUser, readUser, deleteUser } from "./user.js";
 import { createBook, readBook, updateBook, deleteBook } from "./book.js";
-import { createOpinion, readOpinion, deleteOpinion } from "./opinion.js";
+import { createOpinion, readOpinion, updateOpinion, deleteOpinion } from "./opinion.js";
 
 const apiUrl = "http://php-crud-api.alwaysdata.net/";
 

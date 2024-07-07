@@ -1,3 +1,5 @@
+import { clearContent } from "./view.js";
+
 function buildTable(data) {
   clearContent();
 
@@ -49,10 +51,6 @@ function buildForm(data) {
   return form;
 }
 
-function clearContent() {
-  $('section, form, table, #pagination-buttons').empty();
-}
-
 function buildPaginationButtons() {
   const buttonsContainer = $('<div></div>');
   buttonsContainer.attr({"id": "pagination-buttons"});
@@ -81,4 +79,4 @@ function setPaginationActions(callback, page, parentId = "") {
   });
 }
 
-export { buildTable, buildForm, clearContent, buildPaginationButtons, setPaginationActions };
+export { buildTable, buildForm, buildPaginationButtons, setPaginationActions };

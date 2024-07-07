@@ -1,5 +1,5 @@
 /** */
-import { getHomePage } from "./home.js";
+import { getHomePage } from "./view.js";
 import { authorizeUser, createUser, readUser, deleteUser } from "./user.js";
 import { createBook, readBook, updateBook, deleteBook } from "./book.js";
 import { createOpinion, readOpinion, updateOpinion, deleteOpinion } from "./opinion.js";

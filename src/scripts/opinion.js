@@ -1,5 +1,6 @@
 import { apiUrl } from "./main.js";
-import { buildTable, buildForm, buildPaginationButtons, setPaginationActions, clearContent } from "./builder.js";
+import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
+import { clearContent } from "./view.js";
 
 function createOpinion() {
   let isFirstFormSubmitted = false;

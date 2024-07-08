@@ -1,5 +1,6 @@
 import { apiUrl } from "./main.js";
 import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
+import { showMessage } from "./view.js";
 
 function createBook() {
   const fillableProperties = ["title", "author", "published_at"];
@@ -25,11 +26,11 @@ function createBook() {
         xhr.setRequestHeader('Authorization', 'Bearer ' + token);
       },
       success: function (responseData) {
-        alert(responseData.message);
+        showMessage(responseData.message);
       },
       error: function (jqXHR) {
         const errorResponse = JSON.parse(jqXHR.responseText);
-        alert("Ошибка: " + errorResponse.error);
+        showMessage("Ошибка: " + errorResponse.error);
       }
     });
 
@@ -60,7 +61,7 @@ function readBook(id = "", page = 1) {
     })
     .fail(function (jqXHR) {
       const errorResponse = JSON.parse(jqXHR.responseText);
-      alert("Ошибка: " + errorResponse.error);
+      showMessage("Ошибка: " + errorResponse.error);
     });
 }
 
@@ -96,11 +97,11 @@ function updateBook() {
             xhr.setRequestHeader('Authorization', 'Bearer ' + token);
           },
           success: function (responseData) {
-            alert(responseData.message);
+            showMessage(responseData.message);
           },
           error: function (jqXHR) {
             const errorResponse = JSON.parse(jqXHR.responseText);
-            alert("Ошибка: " + errorResponse.error);
+            showMessage("Ошибка: " + errorResponse.error);
           }
         });
 
@@ -142,11 +143,11 @@ function deleteBook() {
         xhr.setRequestHeader('Authorization', 'Bearer ' + token);
       },
       success: function (responseData) {
-        alert(responseData.message);
+        showMessage(responseData.message);
       },
       error: function (jqXHR) {
         const errorResponse = JSON.parse(jqXHR.responseText);
-        alert("Ошибка: " + errorResponse.error);
+        showMessage("Ошибка: " + errorResponse.error);
       }
     });
 

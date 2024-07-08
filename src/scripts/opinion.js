@@ -1,6 +1,6 @@
 import { apiUrl } from "./main.js";
 import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
-import { clearContent } from "./view.js";
+import { clearContent, showMessage } from "./view.js";
 
 function createOpinion() {
   let isFirstFormSubmitted = false;
@@ -34,11 +34,11 @@ function createOpinion() {
             xhr.setRequestHeader('Authorization', 'Bearer ' + token);
           },
           success: function (responseData) {
-            alert(responseData.message);
+            showMessage(responseData.message);
           },
           error: function (jqXHR) {
             const errorResponse = JSON.parse(jqXHR.responseText);
-            alert("Ошибка: " + errorResponse.error);
+            showMessage("Ошибка: " + errorResponse.error);
           }
         });
 
@@ -88,9 +88,9 @@ function readOpinion(bookId = "", page = 1, opinionId = "") {
         });
       })
       .fail(function (jqXHR) {
-        const errorResponse = JSON.parse(jqXHR.responseText);
-        alert("Ошибка: " + errorResponse.error);
         clearContent();
+        const errorResponse = JSON.parse(jqXHR.responseText);
+        showMessage("Ошибка: " + errorResponse.error);
       });
   }
 }
@@ -139,11 +139,11 @@ function updateOpinion() {
                 xhr.setRequestHeader('Authorization', 'Bearer ' + token);
               },
               success: function (responseData) {
-                alert(responseData.message);
+                showMessage(responseData.message);
               },
               error: function (jqXHR) {
                 const errorResponse = JSON.parse(jqXHR.responseText);
-                alert("Ошибка: " + errorResponse.error);
+                showMessage("Ошибка: " + errorResponse.error);
               }
             });
 
@@ -183,11 +183,11 @@ function deleteOpinion() {
             xhr.setRequestHeader('Authorization', 'Bearer ' + token);
           },
           success: function (responseData) {
-            alert(responseData.message);
+            showMessage(responseData.message);
           },
           error: function (jqXHR) {
             const errorResponse = JSON.parse(jqXHR.responseText);
-            alert("Ошибка: " + errorResponse.error);
+            showMessage("Ошибка: " + errorResponse.error);
           }
         });
 

@@ -24,7 +24,7 @@ function extractBodyContent(data) {
 }
 
 function showMessage(message) {
-  return $('#message').html(message);
+  return $('section').html(message);
 }
 
 function clearContent() {

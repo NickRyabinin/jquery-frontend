@@ -1,5 +1,6 @@
 import { apiUrl } from "./main.js";
 import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
+import { showMessage } from "./view.js";
 
 function authorizeUser() {
   const fillableProperties = ['token'];
@@ -11,7 +12,7 @@ function authorizeUser() {
 
     const token = $('#token').val();
     sessionStorage.setItem('token', token);
-    alert('User authorized with token:\n' + token);
+    showMessage('User authorized with token:\n' + token);
 
     form.off('submit');
   });
@@ -34,11 +35,11 @@ function createUser() {
 
     $.post(apiUrl + "users/", formData)
       .done(function (responseData) {
-        alert("Token: " + responseData.token);
+        showMessage("Token: " + responseData.token);
       })
       .fail(function (jqXHR) {
         const errorResponse = JSON.parse(jqXHR.responseText);
-        alert("Ошибка: " + errorResponse.error);
+        showMessage("Ошибка: " + errorResponse.error);
       });
 
     form.off('submit');
@@ -68,7 +69,7 @@ function readUser(id = "", page = 1) {
     })
     .fail(function (jqXHR) {
       const errorResponse = JSON.parse(jqXHR.responseText);
-      alert("Ошибка: " + errorResponse.error);
+      showMessage("Ошибка: " + errorResponse.error);
     });
 }
 
@@ -83,11 +84,11 @@ function deleteUser() {
     },
     success: function (responseData) {
       sessionStorage.removeItem('token');
-      alert(responseData.message);
+      showMessage(responseData.message);
     },
     error: function (jqXHR) {
       const errorResponse = JSON.parse(jqXHR.responseText);
-      alert("Ошибка: " + errorResponse.error);
+      showMessage("Ошибка: " + errorResponse.error);
     }
   });
 }

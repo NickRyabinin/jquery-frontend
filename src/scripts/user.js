@@ -73,6 +73,21 @@ function readUser(id = "", page = 1) {
     });
 }
 
+function updateUser() {
+  $.ajax({
+    url: apiUrl + "users/",
+    type: 'PUT',
+
+    success: function (responseData) {
+      showMessage(responseData.message);
+    },
+    error: function (jqXHR) {
+      const errorResponse = JSON.parse(jqXHR.responseText);
+      showMessage("Ошибка: " + errorResponse.error);
+    }
+  });
+}
+
 function deleteUser() {
   const token = sessionStorage.getItem('token');
 
@@ -93,4 +108,4 @@ function deleteUser() {
   });
 }
 
-export { authorizeUser, createUser, readUser, deleteUser };
+export { authorizeUser, createUser, readUser, updateUser, deleteUser };

@@ -7,29 +7,19 @@ import { createOpinion, readOpinion, updateOpinion, deleteOpinion } from "./opin
 const apiUrl = "http://php-crud-api.alwaysdata.net/";
 
 $(document).ready(function () {
-  $('#home').click(function () {
-    $('.usersSubmenu').slideUp();
-    $('.booksSubmenu').slideUp();
-    $('.opinionsSubmenu').slideUp();
+  $('.menu').on('click', 'li', function() {
+    const submenu = $(this).find('.submenu');
+    $('.submenu').not(submenu).slideUp();
+    submenu.slideToggle();
+  });
+
+  $('.submenu li').click(function(event) {
+    event.stopPropagation(); // Предотвращаем всплытие события, чтобы клик на элементе субменю не вызывал клик на его родителе
+    $(this).closest('.submenu').slideUp(); // Сворачиваем текущее субменю после клика на элемент субменю
+  });
+
+  $('#home').click(function() {
     getHomePage();
-  })
-
-  $('.users').click(function () {
-    $('.booksSubmenu').slideUp();
-    $('.opinionsSubmenu').slideUp();
-    $('.usersSubmenu').slideToggle();
-  });
-
-  $('.books').click(function () {
-    $('.usersSubmenu').slideUp();
-    $('.opinionsSubmenu').slideUp();
-    $('.booksSubmenu').slideToggle();
-  });
-
-  $('.opinions').click(function () {
-    $('.usersSubmenu').slideUp();
-    $('.booksSubmenu').slideUp();
-    $('.opinionsSubmenu').slideToggle();
   });
 
   $('.submenu li').click(function () {
@@ -45,7 +35,6 @@ $(document).ready(function () {
         console.error('Error calling function: ' + error);
     }
   });
-
 });
 
 getHomePage();

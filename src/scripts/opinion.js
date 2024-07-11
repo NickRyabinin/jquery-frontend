@@ -1,4 +1,4 @@
-import { apiUrl } from "./main.js";
+import { apiUrl, makeAjaxRequest } from "./main.js";
 import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
 import { clearContent, showMessage } from "./view.js";
 
@@ -24,23 +24,7 @@ function createOpinion() {
           "opinion": $('#opinion').val()
         });
 
-        const token = sessionStorage.getItem('token');
-
-        $.ajax({
-          url: apiUrl + "books/" + bookId + "/opinions",
-          type: 'POST',
-          data: formData,
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-          },
-          success: function (responseData) {
-            showMessage(responseData.message);
-          },
-          error: function (jqXHR) {
-            const errorResponse = JSON.parse(jqXHR.responseText);
-            showMessage("Ошибка: " + errorResponse.error);
-          }
-        });
+        makeAjaxRequest(apiUrl + "books/" + bookId + "/opinions", 'POST', formData);
 
         form.off('submit');
       });
@@ -129,23 +113,7 @@ function updateOpinion() {
               "opinion": $('#opinion').val()
             });
 
-            const token = sessionStorage.getItem('token');
-
-            $.ajax({
-              url: apiUrl + "books/" + bookId + "/opinions/" + opinionId,
-              type: 'PUT',
-              data: formData,
-              beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-              },
-              success: function (responseData) {
-                showMessage(responseData.message);
-              },
-              error: function (jqXHR) {
-                const errorResponse = JSON.parse(jqXHR.responseText);
-                showMessage("Ошибка: " + errorResponse.error);
-              }
-            });
+            makeAjaxRequest(apiUrl + "books/" + bookId + "/opinions/" + opinionId, 'PUT', formData);
 
             form.off('submit');
           });
@@ -174,22 +142,8 @@ function deleteOpinion() {
         event.preventDefault();
 
         const opinionId = $('#opinion_id').val();
-        const token = sessionStorage.getItem('token');
 
-        $.ajax({
-          url: apiUrl + "books/" + bookId + "/opinions/" + opinionId,
-          type: 'DELETE',
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-          },
-          success: function (responseData) {
-            showMessage(responseData.message);
-          },
-          error: function (jqXHR) {
-            const errorResponse = JSON.parse(jqXHR.responseText);
-            showMessage("Ошибка: " + errorResponse.error);
-          }
-        });
+        makeAjaxRequest(apiUrl + "books/" + bookId + "/opinions/" + opinionId, 'DELETE');
 
         form.off('submit');
       });

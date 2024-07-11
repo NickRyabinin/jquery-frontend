@@ -1,10 +1,32 @@
 /** */
-import { getHomePage } from "./view.js";
+import { getHomePage, showMessage, clearContent } from "./view.js";
 import { authorizeUser, createUser, readUser, updateUser, deleteUser } from "./user.js";
 import { createBook, readBook, updateBook, deleteBook } from "./book.js";
 import { createOpinion, readOpinion, updateOpinion, deleteOpinion } from "./opinion.js";
 
 const apiUrl = "http://php-crud-api.alwaysdata.net/";
+
+function makeAjaxRequest(url, method, data = '') {
+  clearContent();
+
+  const token = sessionStorage.getItem('token');
+
+  $.ajax({
+    url: url,
+    type: method,
+    data: data,
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+    },
+    success: function (responseData) {
+      showMessage(responseData.message);
+    },
+    error: function (jqXHR) {
+      const errorResponse = JSON.parse(jqXHR.responseText);
+      showMessage("Ошибка: " + errorResponse.error);
+    }
+  });
+}
 
 $(document).ready(function () {
   $('.menu').on('click', 'li', function() {
@@ -39,4 +61,4 @@ $(document).ready(function () {
 
 getHomePage();
 
-export { apiUrl };
+export { apiUrl, makeAjaxRequest };

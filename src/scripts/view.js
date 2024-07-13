@@ -1,7 +1,7 @@
 import { apiUrl } from "./main.js";
 
 function getHomePage() {
-  $.get(apiUrl, function(data, status) {
+  $.get(apiUrl, function (data, status) {
     clearContent();
 
     if (status === 'success') {
@@ -23,7 +23,11 @@ function extractBodyContent(data) {
   return "";
 }
 
-function showMessage(message) {
+function showMessage(messageObject) {
+  let message = '';
+  for (const key in messageObject) {
+    message += key + ': ' + messageObject[key] + '<br>';
+  }
   return $('section').html(message);
 }
 

@@ -1,4 +1,4 @@
-import { apiUrl } from "./main.js";
+import { apiUrl, makeAjaxRequest } from "./main.js";
 import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
 import { showMessage } from "./view.js";
 
@@ -12,7 +12,7 @@ function authorizeUser() {
 
     const token = $('#token').val();
     sessionStorage.setItem('token', token);
-    showMessage('User authorized with token:\n' + token);
+    showMessage({message: 'User authorized with token' + '<br>' + token});
 
     form.off('submit');
   });
@@ -33,14 +33,7 @@ function createUser() {
       "email": $('#email').val()
     });
 
-    $.post(apiUrl + "users/", formData)
-      .done(function (responseData) {
-        showMessage("Token: " + responseData.token);
-      })
-      .fail(function (jqXHR) {
-        const errorResponse = JSON.parse(jqXHR.responseText);
-        showMessage("Ошибка: " + errorResponse.error);
-      });
+    makeAjaxRequest(apiUrl + "users/", 'POST', formData);
 
     form.off('submit');
   });
@@ -69,43 +62,17 @@ function readUser(id = "", page = 1) {
     })
     .fail(function (jqXHR) {
       const errorResponse = JSON.parse(jqXHR.responseText);
-      showMessage("Ошибка: " + errorResponse.error);
+      showMessage(errorResponse);
     });
 }
 
 function updateUser() {
-  $.ajax({
-    url: apiUrl + "users/",
-    type: 'PUT',
-
-    success: function (responseData) {
-      showMessage(responseData.message);
-    },
-    error: function (jqXHR) {
-      const errorResponse = JSON.parse(jqXHR.responseText);
-      showMessage("Ошибка: " + errorResponse.error);
-    }
-  });
+  makeAjaxRequest(apiUrl + "users/", 'PUT');
 }
 
 function deleteUser() {
-  const token = sessionStorage.getItem('token');
-
-  $.ajax({
-    url: apiUrl + "users/",
-    type: 'DELETE',
-    beforeSend: function (xhr) {
-      xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-    },
-    success: function (responseData) {
-      sessionStorage.removeItem('token');
-      showMessage(responseData.message);
-    },
-    error: function (jqXHR) {
-      const errorResponse = JSON.parse(jqXHR.responseText);
-      showMessage("Ошибка: " + errorResponse.error);
-    }
-  });
+  makeAjaxRequest(apiUrl + "users/", 'DELETE');
+  sessionStorage.removeItem('token');
 }
 
 export { authorizeUser, createUser, readUser, updateUser, deleteUser };

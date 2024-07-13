@@ -74,7 +74,7 @@ function readOpinion(bookId = "", page = 1, opinionId = "") {
       .fail(function (jqXHR) {
         clearContent();
         const errorResponse = JSON.parse(jqXHR.responseText);
-        showMessage("Ошибка: " + errorResponse.error);
+        showMessage(errorResponse);
       });
   }
 }

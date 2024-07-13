@@ -1,4 +1,4 @@
-import { apiUrl } from "./main.js";
+import { apiUrl, makeAjaxRequest } from "./main.js";
 import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
 import { showMessage } from "./view.js";
 
@@ -16,23 +16,7 @@ function createBook() {
       "published_at": $('#published_at').val()
     });
 
-    const token = sessionStorage.getItem('token');
-
-    $.ajax({
-      url: apiUrl + "books/",
-      type: 'POST',
-      data: formData,
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-      },
-      success: function (responseData) {
-        showMessage(responseData.message);
-      },
-      error: function (jqXHR) {
-        const errorResponse = JSON.parse(jqXHR.responseText);
-        showMessage("Ошибка: " + errorResponse.error);
-      }
-    });
+    makeAjaxRequest(apiUrl + "books/", 'POST', formData);
 
     form.off('submit');
   });
@@ -61,7 +45,7 @@ function readBook(id = "", page = 1) {
     })
     .fail(function (jqXHR) {
       const errorResponse = JSON.parse(jqXHR.responseText);
-      showMessage("Ошибка: " + errorResponse.error);
+      showMessage(errorResponse);
     });
 }
 
@@ -87,23 +71,8 @@ function updateBook() {
         event.preventDefault();
 
         const formData = getFormData(fillableProperties);
-        const token = sessionStorage.getItem('token');
 
-        $.ajax({
-          url: apiUrl + "books/" + id,
-          type: 'PUT',
-          data: formData,
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-          },
-          success: function (responseData) {
-            showMessage(responseData.message);
-          },
-          error: function (jqXHR) {
-            const errorResponse = JSON.parse(jqXHR.responseText);
-            showMessage("Ошибка: " + errorResponse.error);
-          }
-        });
+        makeAjaxRequest(apiUrl + "books/" + id, 'PUT', formData);
 
         form.off('submit');
       });
@@ -134,22 +103,7 @@ function deleteBook() {
 
     const id = $('#id').val();
 
-    const token = sessionStorage.getItem('token');
-
-    $.ajax({
-      url: apiUrl + "books/" + id,
-      type: 'DELETE',
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-      },
-      success: function (responseData) {
-        showMessage(responseData.message);
-      },
-      error: function (jqXHR) {
-        const errorResponse = JSON.parse(jqXHR.responseText);
-        showMessage("Ошибка: " + errorResponse.error);
-      }
-    });
+    makeAjaxRequest(apiUrl + "books/" + id, 'DELETE');
 
     form.off('submit');
   });

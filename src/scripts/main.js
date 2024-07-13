@@ -19,11 +19,11 @@ function makeAjaxRequest(url, method, data = '') {
       xhr.setRequestHeader('Authorization', 'Bearer ' + token);
     },
     success: function (responseData) {
-      showMessage(responseData.message);
+      showMessage(responseData);
     },
     error: function (jqXHR) {
       const errorResponse = JSON.parse(jqXHR.responseText);
-      showMessage("Ошибка: " + errorResponse.error);
+      showMessage(errorResponse);
     }
   });
 }

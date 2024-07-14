@@ -67,15 +67,15 @@ function buildPaginationButtons() {
   return buttonsContainer;
 }
 
-function setPaginationActions(callback, page, parentId = "") {
+function setPaginationActions(callback, page, parentId = "", entity = "") {
   $('#pagination-left').click(function () {
-    callback(parentId, page > 1 ? page - 1 : page)
+    callback(parentId, page > 1 ? page - 1 : page, entity)
   });
   $('#pagination-first').click(function () {
-    callback(parentId, 1)
+    callback(parentId, 1, entity)
   });
   $('#pagination-right').click(function () {
-    callback(parentId, page + 1)
+    callback(parentId, page + 1, entity)
   });
 }
 

@@ -1,6 +1,8 @@
-import { apiUrl, makeAjaxRequest } from "./main.js";
-import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
+import { apiUrl, makeAjaxRequest, readEntity } from "./main.js";
+import { buildForm } from "./builder.js";
 import { showMessage } from "./view.js";
+
+const entity = "user";
 
 function authorizeUser() {
   const fillableProperties = ['token'];
@@ -39,31 +41,8 @@ function createUser() {
   });
 }
 
-function readUser(id = "", page = 1) {
-  let query = (id === "") ? '?page=' + page : "";
-  $.get(apiUrl + "users/" + id + query)
-    .done(function (rawData) {
-      let data = (id === "") ? rawData['items'] : rawData;
-      const tableElement = buildTable(data);
-      $('main').append(tableElement);
-      if (id === "") {
-        const paginationButtons = buildPaginationButtons();
-        $('main').append(paginationButtons);
-        setPaginationActions(readUser, page);
-      }
-
-      $('td').click(function () {
-        if ($(this).index() === $('th:contains("id")').index()) {
-          if ($(this).text()) {
-            readUser($(this).text());
-          }
-        }
-      });
-    })
-    .fail(function (jqXHR) {
-      const errorResponse = JSON.parse(jqXHR.responseText);
-      showMessage(errorResponse);
-    });
+function readUser() {
+  readEntity("", 1, entity);
 }
 
 function updateUser() {

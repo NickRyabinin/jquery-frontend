@@ -1,5 +1,6 @@
 /** */
 import { getHomePage, showMessage, clearContent } from "./view.js";
+import { buildTable, buildPaginationButtons, setPaginationActions } from "./builder.js";
 import { authorizeUser, createUser, readUser, updateUser, deleteUser } from "./user.js";
 import { createBook, readBook, updateBook, deleteBook } from "./book.js";
 import { createOpinion, readOpinion, updateOpinion, deleteOpinion } from "./opinion.js";
@@ -26,6 +27,33 @@ function makeAjaxRequest(url, method, data = '') {
       showMessage(errorResponse);
     }
   });
+}
+
+function readEntity(id = "", page = 1, entity = "") {
+  let query = (id === "") ? '?page=' + page : "";
+  $.get(apiUrl + entity + 's/' + id + query)
+    .done(function (rawData) {
+      let data = (id === "") ? rawData['items'] : rawData;
+      const tableElement = buildTable(data);
+      $('main').append(tableElement);
+      if (id === "") {
+        const paginationButtons = buildPaginationButtons();
+        $('main').append(paginationButtons);
+        setPaginationActions(readEntity, page, "", entity);
+      }
+
+      $('td').click(function () {
+        if ($(this).index() === $('th:contains("id")').index()) {
+          if ($(this).text()) {
+            readEntity($(this).text(), 1, entity);
+          }
+        }
+      });
+    })
+    .fail(function (jqXHR) {
+      const errorResponse = JSON.parse(jqXHR.responseText);
+      showMessage(errorResponse);
+    });
 }
 
 $(document).ready(function () {
@@ -61,4 +89,4 @@ $(document).ready(function () {
 
 getHomePage();
 
-export { apiUrl, makeAjaxRequest };
+export { apiUrl, makeAjaxRequest, readEntity };

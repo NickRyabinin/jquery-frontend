@@ -90,36 +90,38 @@ function updateOpinion() {
     isFirstFormSubmitted = true;
     form.off();
     if (isFirstFormSubmitted) {
-      let isSecondFormSubmitted = false;
-      fillableProperties = ["opinion_id"];
-      form = buildForm(fillableProperties);
-      $('main').append(form);
-
-      form.submit(function (event) {
-        event.preventDefault();
-        const opinionId = $('#opinion_id').val();
-        isSecondFormSubmitted = true;
-        form.off();
-
-        if (isSecondFormSubmitted) {
-          fillableProperties = ["opinion"];
-          form = buildForm(fillableProperties);
-          $('main').append(form);
-
-          form.submit(function (event) {
-            event.preventDefault();
-
-            const formData = JSON.stringify({
-              "opinion": $('#opinion').val()
-            });
-
-            makeAjaxRequest(apiUrl + "books/" + bookId + "/opinions/" + opinionId, 'PUT', formData);
-
-            form.off('submit');
-          });
-        }
-      });
+      submitSecondForm(bookId);
     }
+  });
+}
+
+function submitSecondForm(bookId) {
+  let isSecondFormSubmitted = false;
+  let fillableProperties = ["opinion_id"];
+  let form = buildForm(fillableProperties);
+  $('main').append(form);
+  form.submit(function (event) {
+    event.preventDefault();
+    const opinionId = $('#opinion_id').val();
+    isSecondFormSubmitted = true;
+    form.off();
+    if (isSecondFormSubmitted) {
+      submitThirdForm(bookId, opinionId);
+    }
+  });
+}
+
+function submitThirdForm(bookId, opinionId) {
+  let fillableProperties = ["opinion"];
+  let form = buildForm(fillableProperties);
+  $('main').append(form);
+  form.submit(function (event) {
+    event.preventDefault();
+    const formData = JSON.stringify({
+      "opinion": $('#opinion').val()
+    });
+    makeAjaxRequest(apiUrl + "books/" + bookId + "/opinions/" + opinionId, 'PUT', formData);
+    form.off('submit');
   });
 }
 

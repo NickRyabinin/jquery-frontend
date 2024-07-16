@@ -28,10 +28,14 @@ function showMessage(messageObject) {
   for (const key in messageObject) {
     message += key + ': ' + messageObject[key] + '<br>';
   }
+  let sectionClass = ('error' in messageObject) ? 'error' : 'message';
+  $('section').removeClass();
+  $('section').addClass('message-container ' + sectionClass);
   return $('section').html(message);
 }
 
 function clearContent() {
+  $('section').removeClass();
   $('section, form, table, #pagination-buttons').empty();
 }
 

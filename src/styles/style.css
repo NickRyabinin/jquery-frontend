@@ -86,3 +86,25 @@ main {
 #pagination-buttons button {
   margin: 0 3px;
 }
+
+section {
+  min-height: 40px;
+}
+
+.message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  padding: 5px;
+  text-align: center;
+  word-break: break-all ;
+}
+
+.error {
+  background-color: red;
+}
+
+.message {
+  background-color: rgb(46, 46, 44);
+}

@@ -24,12 +24,12 @@ function extractBodyContent(data) {
 }
 
 function showMessage(messageObject) {
+  clearContent();
   let message = '';
   for (const key in messageObject) {
     message += key + ': ' + messageObject[key] + '<br>';
   }
   let sectionClass = ('error' in messageObject) ? 'error' : 'message';
-  $('section').removeClass();
   $('section').addClass('message-container ' + sectionClass);
   return $('section').html(message);
 }

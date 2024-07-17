@@ -65,8 +65,10 @@ table {
 }
 
 td, th {
+  max-width: 200px;
   border: 1px solid wheat;
   padding: 5px;
+  word-break: break-all;
 }
 
 .inactive {
@@ -74,6 +76,8 @@ td, th {
 }
 
 input {
+  height: 24px;
+  width: 200px;
   margin-bottom: 5px;
 }
 
@@ -98,7 +102,7 @@ section {
   width: 80%;
   padding: 5px;
   text-align: center;
-  word-break: break-all ;
+  word-break: break-all;
 }
 
 .error {
@@ -107,4 +111,9 @@ section {
 
 .message {
   background-color: rgb(46, 46, 44);
+}
+
+button {
+  height: 30px;
+  min-width: 30px;
 }

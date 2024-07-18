@@ -34,9 +34,13 @@ function showMessage(messageObject) {
   return $('section').html(message);
 }
 
-function clearContent() {
-  $('section').removeClass();
-  $('section, form, table, #pagination-buttons').empty();
+function showHeader(headerText) {
+  return $('h3').html(headerText);
 }
 
-export { getHomePage, showMessage, clearContent };
+function clearContent() {
+  $('section').removeClass();
+  $('section, h3, form, table, #pagination-buttons').empty();
+}
+
+export { getHomePage, showMessage, showHeader, clearContent };

@@ -1,5 +1,5 @@
 /** */
-import { getHomePage, showMessage, clearContent } from "./view.js";
+import { getHomePage, showMessage, showHeader, clearContent } from "./view.js";
 import { buildTable, buildPaginationButtons, setPaginationActions } from "./builder.js";
 import { authorizeUser, createUser, readUser, updateUser, deleteUser } from "./user.js";
 import { createBook, readBook, updateBook, deleteBook } from "./book.js";
@@ -30,6 +30,7 @@ function makeAjaxRequest(url, method, data = '') {
 }
 
 function readEntity(id = "", page = 1, entity = "") {
+  let header = entity;
   let query = (id === "") ? '?page=' + page : "";
   $.get(apiUrl + entity + 's/' + id + query)
     .done(function (rawData) {
@@ -37,10 +38,12 @@ function readEntity(id = "", page = 1, entity = "") {
       const tableElement = buildTable(data);
       $('main').append(tableElement);
       if (id === "") {
+        header += 's записи ' + (rawData['offset'] + 1) + ' - ' + ((rawData['total'] < (rawData['offset'] + 1) * 10) ? rawData['total'] : (rawData['offset'] + 1) * rawData['limit']) + ' из ' + rawData['total'];
         const paginationButtons = buildPaginationButtons();
         $('main').append(paginationButtons);
         setPaginationActions(readEntity, page, "", entity);
       }
+      showHeader(header);
 
       $('td').click(function () {
         if ($(this).index() === $('th:contains("id")').index()) {

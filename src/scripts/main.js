@@ -30,7 +30,6 @@ function makeAjaxRequest(url, method, data = '') {
 }
 
 function readEntity(id = "", page = 1, entity = "") {
-  let header = entity;
   let query = (id === "") ? '?page=' + page : "";
   $.get(apiUrl + entity + 's/' + id + query)
     .done(function (rawData) {
@@ -38,12 +37,11 @@ function readEntity(id = "", page = 1, entity = "") {
       const tableElement = buildTable(data);
       $('main').append(tableElement);
       if (id === "") {
-        header += 's записи ' + (rawData['offset'] + 1) + ' - ' + ((rawData['total'] < (rawData['offset'] + 1) * 10) ? rawData['total'] : (rawData['offset'] + 1) * rawData['limit']) + ' из ' + rawData['total'];
         const paginationButtons = buildPaginationButtons();
         $('main').append(paginationButtons);
         setPaginationActions(readEntity, page, "", entity);
       }
-      showHeader(header);
+      showHeader(makeHeader(entity, rawData, id));
 
       $('td').click(function () {
         if ($(this).index() === $('th:contains("id")').index()) {
@@ -57,6 +55,19 @@ function readEntity(id = "", page = 1, entity = "") {
       const errorResponse = JSON.parse(jqXHR.responseText);
       showMessage(errorResponse);
     });
+}
+
+function makeHeader(entity, rawData, id) {
+  let header = entity;
+  if (id === "") {
+    const startRecord = rawData['offset'] + 1;
+    let endRecord = (rawData['total'] < (rawData['offset'] + 1) * 10) ? rawData['total'] : (rawData['offset'] + 1) * rawData['limit'];
+    const totalRecords = rawData['total'];
+    header += 's записи ' + startRecord + ' - ' + endRecord + ' из ' + totalRecords;
+  } else {
+    header += ' ' + id;
+  }
+  return header;
 }
 
 $(document).ready(function () {
@@ -92,4 +103,4 @@ $(document).ready(function () {
 
 getHomePage();
 
-export { apiUrl, makeAjaxRequest, readEntity };
+export { apiUrl, makeAjaxRequest, readEntity, makeHeader };

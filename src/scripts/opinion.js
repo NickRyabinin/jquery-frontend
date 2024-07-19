@@ -1,4 +1,4 @@
-import { apiUrl, makeAjaxRequest } from "./main.js";
+import { apiUrl, makeAjaxRequest, makeHeader } from "./main.js";
 import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
 import { clearContent, showHeader, showMessage } from "./view.js";
 
@@ -55,7 +55,6 @@ function readOpinion(bookId = "", page = 1, opinionId = "") {
 }
 
 function getOpinionData(bookId, page, opinionId) {
-  let header = entity;
   let query = (opinionId === "") ? '?page=' + page : "";
   $.get(apiUrl + "books/" + bookId + "/opinions/" + opinionId + query)
     .done(function (rawData) {
@@ -63,12 +62,11 @@ function getOpinionData(bookId, page, opinionId) {
       const tableElement = buildTable(data);
       $('main').append(tableElement);
       if (opinionId === "") {
-        header += 's записи ' + (rawData['offset'] + 1) + ' - ' + ((rawData['total'] < (rawData['offset'] + 1) * 10) ? rawData['total'] : (rawData['offset'] + 1) * rawData['limit']) + ' из ' + rawData['total'];
         const paginationButtons = buildPaginationButtons();
         $('main').append(paginationButtons);
         setPaginationActions(readOpinion, page, bookId);
       }
-      showHeader(header);
+      showHeader(makeHeader(entity, rawData, opinionId));
 
       $('td').click(function () {
         if ($(this).index() === $('th:contains("opinion_id")').index()) {

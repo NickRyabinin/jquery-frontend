@@ -34,13 +34,21 @@ function showMessage(messageObject) {
   return $('section').html(message);
 }
 
-function showHeader(headerText) {
-  return $('h3').html(headerText);
+function showTableHeader(headerText) {
+  return $('h4').html(headerText);
+}
+
+function showAction(action, entity) {
+  return $('h3').html(action + " " + entity);;
 }
 
 function clearContent() {
   $('section').removeClass();
-  $('section, h3, form, table, #pagination-buttons').empty();
+  $('section, h4, form, table, #pagination-buttons').empty();
 }
 
-export { getHomePage, showMessage, showHeader, clearContent };
+$('.submenu, #home').click(function() {
+  $('h3').empty();
+});
+
+export { getHomePage, showMessage, showTableHeader, showAction, clearContent };

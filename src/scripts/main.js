@@ -1,5 +1,5 @@
 /** */
-import { getHomePage, showMessage, showHeader, clearContent } from "./view.js";
+import { getHomePage, showMessage, showTableHeader, showAction, clearContent } from "./view.js";
 import { buildTable, buildPaginationButtons, setPaginationActions } from "./builder.js";
 import { authorizeUser, createUser, readUser, updateUser, deleteUser } from "./user.js";
 import { createBook, readBook, updateBook, deleteBook } from "./book.js";
@@ -41,7 +41,7 @@ function readEntity(id = "", page = 1, entity = "") {
         $('main').append(paginationButtons);
         setPaginationActions(readEntity, page, "", entity);
       }
-      showHeader(makeHeader(entity, rawData, id));
+      showTableHeader(makeTableHeader(entity, rawData, id));
 
       $('td').click(function () {
         if ($(this).index() === $('th:contains("id")').index()) {
@@ -57,7 +57,7 @@ function readEntity(id = "", page = 1, entity = "") {
     });
 }
 
-function makeHeader(entity, rawData, id) {
+function makeTableHeader(entity, rawData, id) {
   let header = entity;
   if (id === "") {
     const startRecord = rawData['offset'] + 1;
@@ -88,11 +88,13 @@ $(document).ready(function () {
 
   $('.submenu li').click(function () {
     const action = $(this).text();
-    const menuName = $(this).closest('ul').parent().text().split(" ")[0]; // Получаем текст родительского элемента li
-    const functionName = action.toLowerCase() + menuName.slice(0, -2);
+    const menuName = $(this).closest('ul').parent().text().split(" ")[0]; // Получаем текст родительского элемента li (entity)
 
+    showAction(action, menuName);
+
+    const functionName = action.toLowerCase() + menuName.slice(0, -2);
     const functionCall = functionName + '()';
-    
+
     try {
         eval(functionCall);
     } catch (error) {
@@ -103,4 +105,4 @@ $(document).ready(function () {
 
 getHomePage();
 
-export { apiUrl, makeAjaxRequest, readEntity, makeHeader };
+export { apiUrl, makeAjaxRequest, readEntity, makeTableHeader };

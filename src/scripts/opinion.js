@@ -1,6 +1,6 @@
-import { apiUrl, makeAjaxRequest, makeHeader } from "./main.js";
+import { apiUrl, makeAjaxRequest, makeTableHeader } from "./main.js";
 import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
-import { clearContent, showHeader, showMessage } from "./view.js";
+import { clearContent, showTableHeader, showMessage } from "./view.js";
 
 const entity = 'opinion';
 
@@ -66,7 +66,7 @@ function getOpinionData(bookId, page, opinionId) {
         $('main').append(paginationButtons);
         setPaginationActions(readOpinion, page, bookId);
       }
-      showHeader(makeHeader(entity, rawData, opinionId));
+      showTableHeader(makeTableHeader(entity, rawData, opinionId));
 
       $('td').click(function () {
         if ($(this).index() === $('th:contains("opinion_id")').index()) {

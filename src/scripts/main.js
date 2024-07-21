@@ -87,6 +87,8 @@ $(document).ready(function () {
   });
 
   $('.submenu li').click(function () {
+    $('form').off();
+
     const action = $(this).text();
     const menuName = $(this).closest('ul').parent().text().split(" ")[0]; // Получаем текст родительского элемента li (entity)
 

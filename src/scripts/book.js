@@ -1,3 +1,7 @@
+/**
+ * book.js - контроллер CRUD взаимодействия с сущностью book (через AJAX запросы к API)
+ */
+
 import { apiUrl, makeAjaxRequest, readEntity } from "./main.js";
 import { buildForm } from "./builder.js";
 
@@ -19,7 +23,7 @@ function createBook() {
 
     makeAjaxRequest(apiUrl + "books/", 'POST', formData);
 
-    form.off('submit');
+    form.off();
   });
 }
 
@@ -30,13 +34,13 @@ function readBook() {
 function updateBook() {
   let isFirstFormSubmitted = false;
 
-  const fillableProperties = ["id"];
+  const fillableProperties = ["book_id"];
   const form = buildForm(fillableProperties);
   $('main').append(form);
 
   form.submit(function (event) {
     event.preventDefault();
-    const id = $('#id').val();
+    const bookId = $('#book_id').val();
     isFirstFormSubmitted = true;
     form.off();
 
@@ -50,9 +54,9 @@ function updateBook() {
 
         const formData = getFormData(fillableProperties);
 
-        makeAjaxRequest(apiUrl + "books/" + id, 'PUT', formData);
+        makeAjaxRequest(apiUrl + "books/" + bookId, 'PUT', formData);
 
-        form.off('submit');
+        form.off();
       });
     }
   });
@@ -72,18 +76,18 @@ function getFormData(fields) {
 }
 
 function deleteBook() {
-  const fillableProperties = ["id"];
+  const fillableProperties = ["book_id"];
   const form = buildForm(fillableProperties);
   $('main').append(form);
 
   form.submit(function (event) {
     event.preventDefault();
 
-    const id = $('#id').val();
+    const bookId = $('#book_id').val();
 
-    makeAjaxRequest(apiUrl + "books/" + id, 'DELETE');
+    makeAjaxRequest(apiUrl + "books/" + bookId, 'DELETE');
 
-    form.off('submit');
+    form.off();
   });
 }
 

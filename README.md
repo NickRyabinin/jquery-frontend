@@ -8,8 +8,7 @@ jQuery, JavaScript, HTML, CSS, DOM, AJAX, API.
 ## Установка
 
 ```
-git clone https://github.com/NickRyabinin/jquery-frontend.git
-
+git clone git@github.com:NickRyabinin/jquery-frontend.git
 ```
 
 Для локального запуска приложения перейдите в директорию ./jquery-frontend/src/ и запустите любой http-server.

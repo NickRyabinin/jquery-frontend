@@ -1,3 +1,7 @@
+/**
+ * view.js - модуль, управляющий выводом данных на экран пользователя. 
+ */
+
 import { apiUrl } from "./main.js";
 
 function getHomePage() {
@@ -39,7 +43,13 @@ function showTableHeader(headerText) {
 }
 
 function showAction(action, entity) {
-  return $('h3').html(action + " " + entity);;
+  let normalizedEntity = entity.toLowerCase();
+
+  if (action !== 'Read') {
+    normalizedEntity = normalizedEntity.slice(0, -2);
+  }
+
+  return $('h3').html(action + " " + normalizedEntity);
 }
 
 function clearContent() {

@@ -1,4 +1,8 @@
-/** */
+/**
+ * main.js - базовый модуль, точка входа в приложение.
+ * Устанавливает слушатели событий на элементы меню навигации.
+ */
+
 import { getHomePage, showMessage, showTableHeader, showAction, clearContent } from "./view.js";
 import { buildTable, buildPaginationButtons, setPaginationActions } from "./builder.js";
 import { authorizeUser, createUser, readUser, updateUser, deleteUser } from "./user.js";
@@ -58,7 +62,7 @@ function readEntity(id = "", page = 1, entity = "") {
 }
 
 function makeTableHeader(entity, rawData, id) {
-  let header = entity;
+  let header = entity.charAt(0).toUpperCase() + entity.slice(1);
   if (id === "") {
     const startRecord = rawData['offset'] + 1;
     let endRecord = (rawData['total'] < (rawData['offset'] + 1) * 10) ? rawData['total'] : (rawData['offset'] + 1) * rawData['limit'];

@@ -117,3 +117,11 @@ button {
   height: 30px;
   min-width: 30px;
 }
+
+nav {
+  cursor: pointer;
+}
+
+td {
+  cursor: pointer;
+}

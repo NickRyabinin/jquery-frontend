@@ -1,3 +1,7 @@
+/**
+ * opinion.js - контроллер CRUD взаимодействия с сущностью opinion (через AJAX запросы к API)
+ */
+
 import { apiUrl, makeAjaxRequest, makeTableHeader } from "./main.js";
 import { buildTable, buildForm, buildPaginationButtons, setPaginationActions } from "./builder.js";
 import { clearContent, showTableHeader, showMessage } from "./view.js";
@@ -28,7 +32,7 @@ function createOpinion() {
 
         makeAjaxRequest(apiUrl + "books/" + bookId + "/opinions", 'POST', formData);
 
-        form.off('submit');
+        form.off();
       });
     }
   });
@@ -59,8 +63,8 @@ function getOpinionData(bookId, page, opinionId) {
   $.get(apiUrl + "books/" + bookId + "/opinions/" + opinionId + query)
     .done(function (rawData) {
       let data = (opinionId === "") ? rawData['items'] : rawData;
-      const tableElement = buildTable(data);
-      $('main').append(tableElement);
+      const table = buildTable(data);
+      $('main').append(table);
       if (opinionId === "") {
         const paginationButtons = buildPaginationButtons();
         $('main').append(paginationButtons);
@@ -69,11 +73,10 @@ function getOpinionData(bookId, page, opinionId) {
       showTableHeader(makeTableHeader(entity, rawData, opinionId));
 
       $('td').click(function () {
-        if ($(this).index() === $('th:contains("opinion_id")').index()) {
-          if ($(this).text()) {
-            readOpinion(bookId, "", $(this).text());
-          }
-        }
+        const idHeaderCell = $('th:contains("opinion_id")');
+        const idValue = $(this).closest('tr').find('td').eq(idHeaderCell.index()).text();
+
+        readOpinion(bookId, "", idValue);
       });
     })
     .fail(function (jqXHR) {
@@ -125,7 +128,7 @@ function submitThirdForm(bookId, opinionId) {
       "opinion": $('#opinion').val()
     });
     makeAjaxRequest(apiUrl + "books/" + bookId + "/opinions/" + opinionId, 'PUT', formData);
-    form.off('submit');
+    form.off();
   });
 }
 
@@ -151,7 +154,7 @@ function deleteOpinion() {
 
         makeAjaxRequest(apiUrl + "books/" + bookId + "/opinions/" + opinionId, 'DELETE');
 
-        form.off('submit');
+        form.off();
       });
     }
   });

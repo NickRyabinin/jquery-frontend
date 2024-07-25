@@ -38,8 +38,8 @@ function readEntity(id = "", page = 1, entity = "") {
   $.get(apiUrl + entity + 's/' + id + query)
     .done(function (rawData) {
       let data = (id === "") ? rawData['items'] : rawData;
-      const tableElement = buildTable(data);
-      $('main').append(tableElement);
+      const table = buildTable(data);
+      $('main').append(table);
       if (id === "") {
         const paginationButtons = buildPaginationButtons();
         $('main').append(paginationButtons);
@@ -48,11 +48,10 @@ function readEntity(id = "", page = 1, entity = "") {
       showTableHeader(makeTableHeader(entity, rawData, id));
 
       $('td').click(function () {
-        if ($(this).index() === $('th:contains("id")').index()) {
-          if ($(this).text()) {
-            readEntity($(this).text(), 1, entity);
-          }
-        }
+        const idHeaderCell = $('th:contains("id")');
+        const idValue = $(this).closest('tr').find('td').eq(idHeaderCell.index()).text(); // ищем значение ячейки id в той строке, куда кликнули
+
+        readEntity(idValue, 1, entity);
       });
     })
     .fail(function (jqXHR) {

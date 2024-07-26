@@ -11,6 +11,13 @@ const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: pluginJs.configs.recommended});
 
 export default [
-  {languageOptions: { globals: { browser: true, $: true } }, rules: { "no-undef": "off" }},
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.jquery,
+      },
+    },
+  },
   ...compat.extends("airbnb"),
 ];

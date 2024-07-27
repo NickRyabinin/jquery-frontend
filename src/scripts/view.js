@@ -1,18 +1,12 @@
 /**
- * view.js - модуль, управляющий выводом данных на экран пользователя. 
+ * view.js - модуль, управляющий выводом данных на экран пользователя.
  */
 
-import { apiUrl } from "./main.js";
+import { apiUrl } from './main';
 
-function getHomePage() {
-  $.get(apiUrl, function (data, status) {
-    clearContent();
-
-    if (status === 'success') {
-      const parsedData = extractBodyContent(data);
-      $('section').html(parsedData);
-    }
-  });
+function clearContent() {
+  $('section').removeClass();
+  $('section, h4, form, table, #pagination-buttons').empty();
 }
 
 function extractBodyContent(data) {
@@ -24,17 +18,29 @@ function extractBodyContent(data) {
     return bodyContent;
   }
 
-  return "";
+  return '';
 }
+
+function getHomePage() {
+  $.get(apiUrl, (data, status) => {
+    clearContent();
+
+    if (status === 'success') {
+      const parsedData = extractBodyContent(data);
+      $('section').html(parsedData);
+    }
+  });
+}
+
 
 function showMessage(messageObject) {
   clearContent();
   let message = '';
   for (const key in messageObject) {
-    message += key + ': ' + messageObject[key] + '<br>';
+    message += `${key}: ${messageObject[key]}<br>`;
   }
-  let sectionClass = ('error' in messageObject) ? 'error' : 'message';
-  $('section').addClass('message-container ' + sectionClass);
+  const sectionClass = ('error' in messageObject) ? 'error' : 'message';
+  $('section').addClass(`message-container ${sectionClass}`);
   return $('section').html(message);
 }
 
@@ -49,16 +55,13 @@ function showAction(action, entity) {
     normalizedEntity = normalizedEntity.slice(0, -2);
   }
 
-  return $('h3').html(action + " " + normalizedEntity);
+  return $('h3').html(`${action} ${normalizedEntity}`);
 }
 
-function clearContent() {
-  $('section').removeClass();
-  $('section, h4, form, table, #pagination-buttons').empty();
-}
-
-$('.submenu, #home').click(function() {
+$('.submenu, #home').click(() => {
   $('h3').empty();
 });
 
-export { getHomePage, showMessage, showTableHeader, showAction, clearContent };
+export {
+  getHomePage, showMessage, showTableHeader, showAction, clearContent,
+};

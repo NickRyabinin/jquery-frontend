@@ -1,57 +1,57 @@
-import { apiUrl, makeAjaxRequest, readEntity } from "./main.js";
-import { buildForm } from "./builder.js";
-import { showMessage } from "./view.js";
+import { apiUrl, makeAjaxRequest, readEntity } from './main';
+import { buildForm } from './builder';
+import { showMessage } from './view';
 
-const entity = "user";
+const entity = 'user';
 
 function authorizeUser() {
   const fillableProperties = ['token'];
   const form = buildForm(fillableProperties);
   $('main').append(form);
 
-  form.submit(function (event) {
+  form.submit((event) => {
     event.preventDefault();
 
     const token = $('#token').val();
     sessionStorage.setItem('token', token);
-    showMessage({message: 'User authorized with token' + '<br>' + token});
+    showMessage({ message: `User authorized with token<br>${token}` });
 
     form.off('submit');
   });
-
-  return;
 }
 
 function createUser() {
-  const fillableProperties = ["login", "email"];
+  const fillableProperties = ['login', 'email'];
   const form = buildForm(fillableProperties);
   $('main').append(form);
 
-  form.submit(function (event) {
+  form.submit((event) => {
     event.preventDefault();
 
     const formData = JSON.stringify({
-      "login": $('#login').val(),
-      "email": $('#email').val()
+      login: $('#login').val(),
+      email: $('#email').val(),
     });
 
-    makeAjaxRequest(apiUrl + "users/", 'POST', formData);
+    makeAjaxRequest(`${apiUrl}users/`, 'POST', formData);
 
     form.off('submit');
   });
 }
 
 function readUser() {
-  readEntity("", 1, entity);
+  readEntity('', 1, entity);
 }
 
 function updateUser() {
-  makeAjaxRequest(apiUrl + "users/", 'PUT');
+  makeAjaxRequest(`${apiUrl}users/`, 'PUT');
 }
 
 function deleteUser() {
-  makeAjaxRequest(apiUrl + "users/", 'DELETE');
+  makeAjaxRequest(`${apiUrl}users/`, 'DELETE');
   sessionStorage.removeItem('token');
 }
 
-export { authorizeUser, createUser, readUser, updateUser, deleteUser };
+export {
+  authorizeUser, createUser, readUser, updateUser, deleteUser,
+};

@@ -1,4 +1,4 @@
-import { clearContent } from "./view.js";
+import { clearContent } from './view';
 
 function buildTable(data) {
   clearContent();
@@ -16,9 +16,9 @@ function buildTable(data) {
   thead.append(headerTr);
   table.append(thead);
 
-  data.forEach(item => {
+  data.forEach((item) => {
     const row = $('<tr>');
-    headers.forEach(header => {
+    headers.forEach((header) => {
       row.append($('<td>').html(item[header]));
     });
     tbody.append(row);
@@ -37,9 +37,9 @@ function buildForm(data) {
   data.forEach((title) => {
     const input = $('<input></input>');
     input.attr({
-      "type": "text",
-      "id": title,
-      "placeholder": title
+      type: 'text',
+      id: title,
+      placeholder: title,
     });
 
     form.append(input, '<br>');
@@ -53,30 +53,32 @@ function buildForm(data) {
 
 function buildPaginationButtons() {
   const buttonsContainer = $('<div></div>');
-  buttonsContainer.attr({"id": "pagination-buttons"});
+  buttonsContainer.attr({ id: 'pagination-buttons' });
   const left = $('<button><</button>');
   const first = $('<button>1</button>');
   const right = $('<button>></button>');
 
-  left.attr({"id": "pagination-left"});
-  first.attr({"id": "pagination-first"});
-  right.attr({"id": "pagination-right"});
+  left.attr({ id: 'pagination-left' });
+  first.attr({ id: 'pagination-first' });
+  right.attr({ id: 'pagination-right' });
 
   buttonsContainer.append(left, first, right);
 
   return buttonsContainer;
 }
 
-function setPaginationActions(callback, page, parentId = "", entity = "") {
-  $('#pagination-left').click(function () {
-    callback(parentId, page > 1 ? page - 1 : page, entity)
+function setPaginationActions(callback, page, parentId = '', entity = '') {
+  $('#pagination-left').click(() => {
+    callback(parentId, page > 1 ? page - 1 : page, entity);
   });
-  $('#pagination-first').click(function () {
-    callback(parentId, 1, entity)
+  $('#pagination-first').click(() => {
+    callback(parentId, 1, entity);
   });
-  $('#pagination-right').click(function () {
-    callback(parentId, page + 1, entity)
+  $('#pagination-right').click(() => {
+    callback(parentId, page + 1, entity);
   });
 }
 
-export { buildTable, buildForm, buildPaginationButtons, setPaginationActions };
+export {
+  buildTable, buildForm, buildPaginationButtons, setPaginationActions,
+};

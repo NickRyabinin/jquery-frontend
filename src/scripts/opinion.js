@@ -2,11 +2,11 @@
  * opinion.js - контроллер CRUD взаимодействия с сущностью opinion (через AJAX запросы к API)
  */
 
-import { apiUrl, makeAjaxRequest, makeTableHeader } from './main';
+import { apiUrl, makeAjaxRequest, makeTableHeader } from './main.js';
 import {
   buildTable, buildForm, buildPaginationButtons, setPaginationActions,
-} from './builder';
-import { clearContent, showTableHeader, showMessage } from './view';
+} from './builder.js';
+import { clearContent, showTableHeader, showMessage } from './view.js';
 
 const entity = 'opinion';
 

@@ -2,8 +2,8 @@
  * book.js - контроллер CRUD взаимодействия с сущностью book (через AJAX запросы к API)
  */
 
-import { apiUrl, makeAjaxRequest, readEntity } from './main';
-import { buildForm } from './builder';
+import { apiUrl, makeAjaxRequest, readEntity } from './main.js';
+import { buildForm } from './builder.js';
 
 const entity = 'book';
 

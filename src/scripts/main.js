@@ -5,17 +5,17 @@
 
 import {
   getHomePage, showMessage, showTableHeader, showAction, clearContent,
-} from './view';
-import { buildTable, buildPaginationButtons, setPaginationActions } from './builder';
+} from './view.js';
+import { buildTable, buildPaginationButtons, setPaginationActions } from './builder.js';
 import {
   authorizeUser, createUser, readUser, updateUser, deleteUser,
-} from './user';
+} from './user.js';
 import {
   createBook, readBook, updateBook, deleteBook,
-} from './book';
+} from './book.js';
 import {
   createOpinion, readOpinion, updateOpinion, deleteOpinion,
-} from './opinion';
+} from './opinion.js';
 
 const apiUrl = 'http://php-crud-api.alwaysdata.net/';
 

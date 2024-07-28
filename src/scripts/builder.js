@@ -1,4 +1,4 @@
-import { clearContent } from './view';
+import { clearContent } from './view.js';
 
 function buildTable(data) {
   clearContent();

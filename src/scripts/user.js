@@ -1,6 +1,6 @@
-import { apiUrl, makeAjaxRequest, readEntity } from './main';
-import { buildForm } from './builder';
-import { showMessage } from './view';
+import { apiUrl, makeAjaxRequest, readEntity } from './main.js';
+import { buildForm } from './builder.js';
+import { showMessage } from './view.js';
 
 const entity = 'user';
 

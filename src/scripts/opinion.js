@@ -2,7 +2,7 @@
  * opinion.js - контроллер CRUD взаимодействия с сущностью opinion (через AJAX запросы к API)
  */
 
-import { apiUrl, makeAjaxRequest, makeTableHeader } from './main.js';
+import { apiUrl, makeAjaxRequest, makeTableHeader, getCellValue } from './main.js';
 import {
   buildTable, buildForm, buildPaginationButtons, setPaginationActions,
 } from './builder.js';
@@ -74,11 +74,8 @@ function getOpinionData(bookId, page, opinionId) {
       }
       showTableHeader(makeTableHeader(entity, rawData, opinionId));
 
-      $('td').click(() => {
-        const idHeaderCell = $('th:contains("opinion_id")');
-        const idValue = $(this).closest('tr').find('td').eq(idHeaderCell.index())
-          .text();
-
+      $('td').click((event) => {
+        const idValue = getCellValue(event, 'opinion_id');
         readOpinion(bookId, '', idValue);
       });
     })

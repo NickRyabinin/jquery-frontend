@@ -41,6 +41,30 @@ function makeAjaxRequest(url, method, data = '') {
   });
 }
 
+function makeTableHeader(entity, rawData, id) {
+  let header = entity.charAt(0).toUpperCase() + entity.slice(1);
+  if (id === '') {
+    const startRecord = rawData.offset + 1;
+    const endRecord = (rawData.total < (rawData.offset + 1) * 10)
+      ? rawData.total
+      : (rawData.offset + 1) * rawData.limit;
+    const totalRecords = rawData.total;
+    header += `s записи ${startRecord} - ${endRecord} из ${totalRecords}`;
+  } else {
+    header += ` ${id}`;
+  }
+  return header;
+}
+
+function getCellValue(event, cellName) {
+  const headerCell = $(`th:contains(${cellName})`);
+  /* ищем значение нужной ячейки в той строке, куда кликнули */
+  const cellValue = $(event.target).closest('tr')
+    .find('td').eq(headerCell.index())
+    .text();
+  return cellValue;
+}
+
 function readEntity(id = '', page = 1, entity = '') {
   const query = (id === '') ? `?page=${page}` : '';
   $.get(`${apiUrl + entity}s/${id}${query}`)
@@ -55,11 +79,8 @@ function readEntity(id = '', page = 1, entity = '') {
       }
       showTableHeader(makeTableHeader(entity, rawData, id));
 
-      $('td').click(function () {
-        const idHeaderCell = $('th:contains("id")');
-        const idValue = $(this).closest('tr').find('td').eq(idHeaderCell.index())
-          .text(); // ищем значение ячейки id в той строке, куда кликнули
-
+      $('td').click((event) => {
+        const idValue = getCellValue(event, 'id');
         readEntity(idValue, 1, entity);
       });
     })
@@ -67,19 +88,6 @@ function readEntity(id = '', page = 1, entity = '') {
       const errorResponse = JSON.parse(jqXHR.responseText);
       showMessage(errorResponse);
     });
-}
-
-function makeTableHeader(entity, rawData, id) {
-  let header = entity.charAt(0).toUpperCase() + entity.slice(1);
-  if (id === '') {
-    const startRecord = rawData.offset + 1;
-    const endRecord = (rawData.total < (rawData.offset + 1) * 10) ? rawData.total : (rawData.offset + 1) * rawData.limit;
-    const totalRecords = rawData.total;
-    header += `s записи ${startRecord} - ${endRecord} из ${totalRecords}`;
-  } else {
-    header += ` ${id}`;
-  }
-  return header;
 }
 
 $(document).ready(() => {
@@ -90,8 +98,11 @@ $(document).ready(() => {
   });
 
   $('.submenu li').click(function (event) {
-    event.stopPropagation(); // Предотвращаем всплытие события, чтобы клик на элементе субменю не вызывал клик на его родителе
-    $(this).closest('.submenu').slideUp(); // Сворачиваем текущее субменю после клика на элемент субменю
+    /* Предотвращаем всплытие события, чтобы клик на элементе субменю
+    не вызывал клик на его родителе */
+    event.stopPropagation();
+    /* Сворачиваем текущее субменю после клика на элемент субменю */
+    $(this).closest('.submenu').slideUp();
   });
 
   $('#home').click(() => {
@@ -113,7 +124,7 @@ $(document).ready(() => {
     try {
       eval(functionCall);
     } catch (error) {
-      console.error(`Error calling function: ${error}`);
+      showMessage({ error: `Error calling function: ${error}` });
     }
   });
 });
@@ -121,5 +132,5 @@ $(document).ready(() => {
 getHomePage();
 
 export {
-  apiUrl, makeAjaxRequest, readEntity, makeTableHeader,
+  apiUrl, makeAjaxRequest, readEntity, makeTableHeader, getCellValue,
 };

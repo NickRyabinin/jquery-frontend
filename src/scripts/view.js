@@ -9,6 +9,19 @@ function clearContent() {
   $('section, h4, form, table, #pagination-buttons').empty();
 }
 
+function showMessage(messageObject) {
+  clearContent();
+
+  let message = '';
+  Object.entries(messageObject).forEach(([key, value]) => {
+    message += `${key}: ${value}<br>`;
+  });
+  const sectionClass = ('error' in messageObject) ? 'error' : 'message';
+  $('section').addClass(`message-container ${sectionClass}`);
+
+  return $('section').html(message);
+}
+
 function extractBodyContent(data) {
   const startIndex = data.indexOf('<body');
   const endIndex = data.indexOf('</body>');
@@ -22,26 +35,17 @@ function extractBodyContent(data) {
 }
 
 function getHomePage() {
-  $.get(apiUrl, (data, status) => {
-    clearContent();
-
-    if (status === 'success') {
+  $.get(apiUrl)
+    .done((data) => {
+      $('h3').empty();
+      clearContent();
       const parsedData = extractBodyContent(data);
       $('section').html(parsedData);
-    }
-  });
-}
-
-
-function showMessage(messageObject) {
-  clearContent();
-  let message = '';
-  for (const key in messageObject) {
-    message += `${key}: ${messageObject[key]}<br>`;
-  }
-  const sectionClass = ('error' in messageObject) ? 'error' : 'message';
-  $('section').addClass(`message-container ${sectionClass}`);
-  return $('section').html(message);
+    })
+    .fail((jqXHR) => {
+      const errorResponse = JSON.parse(jqXHR.responseText);
+      showMessage(errorResponse);
+    });
 }
 
 function showTableHeader(headerText) {
@@ -57,10 +61,6 @@ function showAction(action, entity) {
 
   return $('h3').html(`${action} ${normalizedEntity}`);
 }
-
-$('.submenu, #home').click(() => {
-  $('h3').empty();
-});
 
 export {
   getHomePage, showMessage, showTableHeader, showAction, clearContent,

@@ -19,6 +19,22 @@ import {
 
 const apiUrl = 'http://php-crud-api.alwaysdata.net/';
 
+const availableFunctions = {
+  authorizeUser,
+  createUser,
+  readUser,
+  updateUser,
+  deleteUser,
+  createBook,
+  readBook,
+  updateBook,
+  deleteBook,
+  createOpinion,
+  readOpinion,
+  updateOpinion,
+  deleteOpinion,
+};
+
 function makeAjaxRequest(url, method, data = '') {
   clearContent();
 
@@ -91,40 +107,39 @@ function readEntity(id = '', page = 1, entity = '') {
 }
 
 $(document).ready(() => {
-  $('.menu').on('click', 'li', function () {
-    const submenu = $(this).find('.submenu');
+  $('.menu').on('click', 'li', (event) => {
+    const submenu = $(event.currentTarget).find('.submenu');
     $('.submenu').not(submenu).slideUp();
     submenu.slideToggle();
   });
 
-  $('.submenu li').click(function (event) {
+  $('.submenu li').click((event) => {
     /* Предотвращаем всплытие события, чтобы клик на элементе субменю
     не вызывал клик на его родителе */
     event.stopPropagation();
     /* Сворачиваем текущее субменю после клика на элемент субменю */
-    $(this).closest('.submenu').slideUp();
+    $(event.currentTarget).closest('.submenu').slideUp();
   });
 
   $('#home').click(() => {
     getHomePage();
   });
 
-  $('.submenu li').click(function () {
+  $('.submenu li').click((event) => {
     $('form').off();
 
-    const action = $(this).text();
-    const menuName = $(this).closest('ul').parent().text()
+    const action = $(event.currentTarget).text();
+    const menuName = $(event.currentTarget).closest('ul').parent().text()
       .split(' ')[0]; // Получаем текст родительского элемента li (entity)
 
     showAction(action, menuName);
 
     const functionName = action.toLowerCase() + menuName.slice(0, -2);
-    const functionCall = `${functionName}()`;
 
-    try {
-      eval(functionCall);
-    } catch (error) {
-      showMessage({ error: `Error calling function: ${error}` });
+    if (availableFunctions[functionName]) {
+      availableFunctions[functionName]();
+    } else {
+      showMessage({ error: `Function ${functionName} is not available` });
     }
   });
 });

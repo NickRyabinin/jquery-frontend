@@ -1,3 +1,7 @@
+/**
+ * builder.js - модуль, динамически генерирующий таблицы и формы.
+ */
+
 import { clearContent } from './view.js';
 
 function buildTable(data) {
@@ -9,9 +13,9 @@ function buildTable(data) {
   const tbody = $('<tbody>');
   const headers = Object.keys(data[0]);
 
-  for (const header of headers) {
+  headers.forEach((header) => {
     headerTr.append($('<th>').html(header));
-  }
+  });
 
   thead.append(headerTr);
   table.append(thead);

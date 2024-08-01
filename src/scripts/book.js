@@ -7,6 +7,19 @@ import { buildForm } from './builder.js';
 
 const entity = 'book';
 
+function getFormData(fields) {
+  const rawFormData = {};
+
+  fields.forEach((field) => {
+    const value = $(`#${field}`).val();
+    if (value !== '') {
+      rawFormData[field] = value;
+    }
+  });
+
+  return JSON.stringify(rawFormData);
+}
+
 function createBook() {
   const fillableProperties = ['title', 'author', 'published_at'];
   const form = buildForm(fillableProperties);
@@ -15,11 +28,7 @@ function createBook() {
   form.submit((event) => {
     event.preventDefault();
 
-    const formData = JSON.stringify({
-      title: $('#title').val(),
-      author: $('#author').val(),
-      published_at: $('#published_at').val(),
-    });
+    const formData = getFormData(fillableProperties);
 
     makeAjaxRequest(`${apiUrl}books/`, 'POST', formData);
 
@@ -34,8 +43,8 @@ function readBook() {
 function updateBook() {
   let isFirstFormSubmitted = false;
 
-  const fillableProperties = ['book_id'];
-  const form = buildForm(fillableProperties);
+  let fillableProperties = ['book_id'];
+  let form = buildForm(fillableProperties);
   $('main').append(form);
 
   form.submit((event) => {
@@ -45,12 +54,12 @@ function updateBook() {
     form.off();
 
     if (isFirstFormSubmitted) {
-      const fillableProperties = ['title', 'author', 'published_at'];
-      const form = buildForm(fillableProperties);
+      fillableProperties = ['title', 'author', 'published_at'];
+      form = buildForm(fillableProperties);
       $('main').append(form);
 
-      form.submit((event) => {
-        event.preventDefault();
+      form.submit((evnt) => {
+        evnt.preventDefault();
 
         const formData = getFormData(fillableProperties);
 
@@ -60,19 +69,6 @@ function updateBook() {
       });
     }
   });
-}
-
-function getFormData(fields) {
-  const rawFormData = {};
-
-  for (const field of fields) {
-    const value = $(`#${field}`).val();
-    if (value !== '') {
-      rawFormData[field] = value;
-    }
-  }
-
-  return JSON.stringify(rawFormData);
 }
 
 function deleteBook() {

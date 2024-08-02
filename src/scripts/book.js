@@ -4,21 +4,9 @@
 
 import { apiUrl, makeAjaxRequest, readEntity } from './main.js';
 import { buildForm } from './builder.js';
+import { getFormData } from './helper.js';
 
 const entity = 'book';
-
-function getFormData(fields) {
-  const rawFormData = {};
-
-  fields.forEach((field) => {
-    const value = $(`#${field}`).val();
-    if (value !== '') {
-      rawFormData[field] = value;
-    }
-  });
-
-  return JSON.stringify(rawFormData);
-}
 
 function createBook() {
   const fillableProperties = ['title', 'author', 'published_at'];

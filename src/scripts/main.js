@@ -3,10 +3,7 @@
  * Устанавливает слушатели событий на элементы меню навигации.
  */
 
-import {
-  getHomePage, showMessage, showTableHeader, showAction, clearContent,
-} from './view.js';
-import { buildTable, buildPaginationButtons, setPaginationActions } from './builder.js';
+import { getHomePage, showMessage, showAction } from './view.js';
 import {
   authorizeUser, createUser, readUser, updateUser, deleteUser,
 } from './user.js';
@@ -34,77 +31,6 @@ const availableFunctions = {
   updateOpinion,
   deleteOpinion,
 };
-
-function makeAjaxRequest(url, method, data = '') {
-  clearContent();
-
-  const token = sessionStorage.getItem('token');
-
-  $.ajax({
-    url,
-    type: method,
-    data,
-    beforeSend(xhr) {
-      xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-    },
-    success(responseData) {
-      showMessage(responseData);
-    },
-    error(jqXHR) {
-      const errorResponse = JSON.parse(jqXHR.responseText);
-      showMessage(errorResponse);
-    },
-  });
-}
-
-function makeTableHeader(entity, rawData, id) {
-  let header = entity.charAt(0).toUpperCase() + entity.slice(1);
-  if (id === '') {
-    const startRecord = rawData.offset + 1;
-    const endRecord = (rawData.total < (rawData.offset + 1) * 10)
-      ? rawData.total
-      : (rawData.offset + 1) * rawData.limit;
-    const totalRecords = rawData.total;
-    header += `s записи ${startRecord} - ${endRecord} из ${totalRecords}`;
-  } else {
-    header += ` ${id}`;
-  }
-  return header;
-}
-
-function getCellValue(event, cellName) {
-  const headerCell = $(`th:contains(${cellName})`);
-  /* ищем значение нужной ячейки в той строке, куда кликнули */
-  const cellValue = $(event.target).closest('tr')
-    .find('td').eq(headerCell.index())
-    .text();
-  return cellValue;
-}
-
-function readEntity(id = '', page = 1, entity = '') {
-  const query = (id === '') ? `?page=${page}` : '';
-  $.get(`${apiUrl + entity}s/${id}${query}`)
-    .done((rawData) => {
-      const data = (id === '') ? rawData.items : rawData;
-      const table = buildTable(data);
-      $('main').append(table);
-      if (id === '') {
-        const paginationButtons = buildPaginationButtons();
-        $('main').append(paginationButtons);
-        setPaginationActions(readEntity, page, '', entity);
-      }
-      showTableHeader(makeTableHeader(entity, rawData, id));
-
-      $('td').click((event) => {
-        const idValue = getCellValue(event, 'id');
-        readEntity(idValue, 1, entity);
-      });
-    })
-    .fail((jqXHR) => {
-      const errorResponse = JSON.parse(jqXHR.responseText);
-      showMessage(errorResponse);
-    });
-}
 
 $(document).ready(() => {
   $('.menu').on('click', 'li', (event) => {
@@ -146,6 +72,4 @@ $(document).ready(() => {
 
 getHomePage();
 
-export {
-  apiUrl, makeAjaxRequest, readEntity, makeTableHeader, getCellValue,
-};
+export { apiUrl };

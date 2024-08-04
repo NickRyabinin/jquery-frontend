@@ -16,23 +16,58 @@
   src: url("../assets/fonts/Open_Sans/OpenSans-Bold.ttf");
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 body {
+  display: flex;
+  flex-direction: column;
   color: darkturquoise;
 }
 
 main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
   padding: 20px;
+}
+
+section {
+  min-height: 40px;
+}
+
+footer {
+  color: lightgreen;
+  text-align: center;
+  font-size: var(--font-small);
+  margin-bottom: 20px;
+}
+
+button {
+  height: 30px;
+  min-width: 30px;
+}
+
+nav {
+  cursor: pointer;
+}
+
+td {
+  cursor: pointer;
+}
+
+a {
+  color: lightgreen;
+  text-decoration: none;
 }
 
 .bg-dark {
   background-color: black;
   width: 100%;
   height: 100%;
-}
-
-a {
-  text-decoration: none;
-  color: black;
 }
 
 .menu {
@@ -81,18 +116,8 @@ input {
   margin-bottom: 5px;
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 #pagination-buttons button {
   margin: 0 3px;
-}
-
-section {
-  min-height: 40px;
 }
 
 .message-container {
@@ -111,17 +136,4 @@ section {
 
 .message {
   background-color: rgb(46, 46, 44);
-}
-
-button {
-  height: 30px;
-  min-width: 30px;
-}
-
-nav {
-  cursor: pointer;
-}
-
-td {
-  cursor: pointer;
 }

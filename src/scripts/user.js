@@ -1,8 +1,8 @@
-import { apiUrl } from './main.js';
+import apiUrl from './main.js';
 import { buildForm } from './builder.js';
 import { showMessage } from './view.js';
-import { makeAjaxRequest } from './request.js';
-import { readEntity } from './controller.js';
+import makeAjaxRequest from './request.js';
+import readEntity from './controller.js';
 
 const entity = 'user';
 

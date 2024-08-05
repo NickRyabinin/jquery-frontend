@@ -22,4 +22,4 @@ function makeAjaxRequest(url, method, data = '') {
   });
 }
 
-export { makeAjaxRequest };
+export default makeAjaxRequest;

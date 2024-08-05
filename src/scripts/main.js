@@ -15,6 +15,7 @@ import {
 } from './opinion.js';
 
 const apiUrl = 'http://php-crud-api.alwaysdata.net/';
+export default apiUrl;
 
 const availableFunctions = {
   authorizeUser,
@@ -71,5 +72,3 @@ $(document).ready(() => {
 });
 
 getHomePage();
-
-export { apiUrl };

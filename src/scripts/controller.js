@@ -1,4 +1,4 @@
-import { apiUrl } from './main.js';
+import apiUrl from './main.js';
 import { buildTable, setPaginationActions, buildPaginationButtons } from './builder.js';
 import { makeTableHeader, getCellValue } from './utils.js';
 import { showTableHeader, showMessage } from './view.js';
@@ -28,4 +28,4 @@ function readEntity(id = '', page = 1, entity = '') {
     });
 }
 
-export { readEntity };
+export default readEntity;

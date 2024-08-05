@@ -2,7 +2,7 @@
  * view.js - модуль, управляющий выводом данных на экран пользователя.
  */
 
-import { apiUrl } from './main.js';
+import apiUrl from './main.js';
 
 function clearContent() {
   $('section').removeClass();

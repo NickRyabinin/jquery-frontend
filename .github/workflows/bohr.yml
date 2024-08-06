@@ -1,13 +1,22 @@
 name: bohr.io deploy
-on: 
-  push:
+on:
+  workflow_run:
+    workflows: ["ESLint"]
+    types:
+      - completed
   repository_dispatch:
-    types: [bohr-dispatch]
+    types: 
+      - bohr-dispatch
+
 permissions: write-all
+
 jobs:
   deploy:
     name: Deploy on bohr.io
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }} # Условие для успешного выполнения
     steps:
-      - uses: actions/checkout@v3
-      - uses: bohr-io/action@main
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Deploy to bohr.io
+        uses: bohr-io/action@main

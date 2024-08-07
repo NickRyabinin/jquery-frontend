@@ -35,16 +35,20 @@ function extractBodyContent(data) {
 }
 
 function getHomePage() {
+  $('h3').empty();
+  clearContent();
+  $('#spinner').show(); // Показываем спиннер
   $.get(apiUrl)
     .done((data) => {
-      $('h3').empty();
-      clearContent();
       const parsedData = extractBodyContent(data);
       $('section').html(parsedData);
     })
     .fail((jqXHR) => {
       const errorResponse = JSON.parse(jqXHR.responseText);
       showMessage(errorResponse);
+    })
+    .always(() => {
+      $('#spinner').hide(); // Скрываем спиннер после завершения запроса
     });
 }
 

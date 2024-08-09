@@ -1,7 +1,7 @@
 name: bohr.io deploy
 on:
   workflow_run:
-    workflows: ["ESLint"]
+    workflows: ["Linting"]
     types:
       - completed
   repository_dispatch:

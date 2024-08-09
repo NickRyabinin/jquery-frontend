@@ -1,4 +1,4 @@
-name: ESLint
+name: Linting
 on:
   push:
     branches: [ "main" ]
@@ -17,5 +17,5 @@ jobs:
           node-version: 20
       - name: Install
         run: make install
-      - name: Run linter
+      - name: Run linters
         run: make lint

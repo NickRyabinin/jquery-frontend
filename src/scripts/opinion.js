@@ -1,5 +1,5 @@
 /**
- * opinion.js - контроллер CRUD взаимодействия с сущностью opinion (через AJAX запросы к API)
+ * opinion.js - контроллер CRUD взаимодействия с сущностью opinion (через AJAX-запросы к API)
  */
 
 import apiUrl from './main.js';

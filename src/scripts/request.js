@@ -1,3 +1,7 @@
+/**
+ * request.js - модуль, непосредственно совершающий AJAX-запрос на указанный URL.
+ */
+
 import { clearContent, showMessage } from './view.js';
 
 function makeAjaxRequest(url, method, data = '') {

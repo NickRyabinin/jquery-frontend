@@ -1,3 +1,7 @@
+/**
+ * utils.js - модуль, куда вынесены различные переиспользуемые другим кодом функции.
+ */
+
 function getFormData(fields) {
   const rawFormData = {};
 

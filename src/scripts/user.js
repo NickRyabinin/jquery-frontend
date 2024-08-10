@@ -1,3 +1,7 @@
+/**
+ * user.js - контроллер CRUD взаимодействия с сущностью user (через AJAX-запросы к API)
+ */
+
 import apiUrl from './main.js';
 import { buildForm } from './builder.js';
 import { showMessage } from './view.js';

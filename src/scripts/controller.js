@@ -1,3 +1,8 @@
+/**
+ * controller.js - базовый контроллер CRUD взаимодействия с сущностями (через AJAX-запросы к API),
+ * куда вынесены общие операции.
+ */
+
 import apiUrl from './main.js';
 import { buildTable, setPaginationActions, buildPaginationButtons } from './builder.js';
 import { makeTableHeader, getCellValue } from './utils.js';

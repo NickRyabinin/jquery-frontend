@@ -1,5 +1,5 @@
 /**
- * book.js - контроллер CRUD взаимодействия с сущностью book (через AJAX запросы к API)
+ * book.js - контроллер CRUD взаимодействия с сущностью book (через AJAX-запросы к API)
  */
 
 import apiUrl from './main.js';

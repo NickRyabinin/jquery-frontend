@@ -4,26 +4,17 @@
 
 import apiUrl from './main.js';
 import { buildForm } from './builder.js';
-import { getFormData } from './utils.js';
 import makeAjaxRequest from './request.js';
-import readEntity from './controller.js';
+import { handleForm, readEntity } from './controller.js';
 
 const entity = 'book';
 
 function createBook() {
   const fillableProperties = ['title', 'author', 'published_at'];
-  const form = buildForm(fillableProperties);
-  $('main').append(form);
+  const url = `${apiUrl}books/`;
+  const method = 'POST';
 
-  form.submit((event) => {
-    event.preventDefault();
-
-    const formData = getFormData(fillableProperties);
-
-    makeAjaxRequest(`${apiUrl}books/`, 'POST', formData);
-
-    form.off();
-  });
+  handleForm(fillableProperties, url, method);
 }
 
 function readBook() {
@@ -34,7 +25,7 @@ function updateBook() {
   let isFirstFormSubmitted = false;
 
   let fillableProperties = ['book_id'];
-  let form = buildForm(fillableProperties);
+  const form = buildForm(fillableProperties);
   $('main').append(form);
 
   form.submit((event) => {
@@ -45,18 +36,10 @@ function updateBook() {
 
     if (isFirstFormSubmitted) {
       fillableProperties = ['title', 'author', 'published_at'];
-      form = buildForm(fillableProperties);
-      $('main').append(form);
+      const url = `${apiUrl}books/${bookId}`;
+      const method = 'PUT';
 
-      form.submit((evnt) => {
-        evnt.preventDefault();
-
-        const formData = getFormData(fillableProperties);
-
-        makeAjaxRequest(`${apiUrl}books/${bookId}`, 'PUT', formData);
-
-        form.off();
-      });
+      handleForm(fillableProperties, url, method);
     }
   });
 }

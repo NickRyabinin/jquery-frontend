@@ -7,17 +7,16 @@ import {
   buildTable, buildForm, buildPaginationButtons, setPaginationActions,
 } from './builder.js';
 import { clearContent, showTableHeader, showMessage } from './view.js';
-import {
-  getFormData, handleTdClick, getCellValue, makeTableHeader,
-} from './utils.js';
+import { handleTdClick, getCellValue, makeTableHeader } from './utils.js';
 import makeAjaxRequest from './request.js';
+import { handleForm } from './controller.js';
 
 const entity = 'opinion';
 
 function createOpinion() {
   let isFirstFormSubmitted = false;
   let fillableProperties = ['book_id'];
-  let form = buildForm(fillableProperties);
+  const form = buildForm(fillableProperties);
   $('main').append(form);
   form.submit((event) => {
     event.preventDefault();
@@ -26,18 +25,10 @@ function createOpinion() {
     form.off();
     if (isFirstFormSubmitted) {
       fillableProperties = ['opinion'];
-      form = buildForm(fillableProperties);
-      $('main').append(form);
+      const url = `${apiUrl}books/${bookId}/opinions`;
+      const method = 'POST';
 
-      form.submit((evnt) => {
-        evnt.preventDefault();
-
-        const formData = getFormData(fillableProperties);
-
-        makeAjaxRequest(`${apiUrl}books/${bookId}/opinions`, 'POST', formData);
-
-        form.off();
-      });
+      handleForm(fillableProperties, url, method);
     }
   });
 }
@@ -91,14 +82,10 @@ function readOpinion(bookId = '', page = 1, opinionId = '') {
 
 function submitThirdForm(bookId, opinionId) {
   const fillableProperties = ['opinion'];
-  const form = buildForm(fillableProperties);
-  $('main').append(form);
-  form.submit((event) => {
-    event.preventDefault();
-    const formData = getFormData(fillableProperties);
-    makeAjaxRequest(`${apiUrl}books/${bookId}/opinions/${opinionId}`, 'PUT', formData);
-    form.off();
-  });
+  const url = `${apiUrl}books/${bookId}/opinions/${opinionId}`;
+  const method = 'PUT';
+
+  handleForm(fillableProperties, url, method);
 }
 
 function submitSecondForm(bookId) {

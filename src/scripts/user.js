@@ -6,7 +6,7 @@ import apiUrl from './main.js';
 import { buildForm } from './builder.js';
 import { showMessage } from './view.js';
 import makeAjaxRequest from './request.js';
-import readEntity from './controller.js';
+import { handleForm, readEntity } from './controller.js';
 
 const entity = 'user';
 
@@ -28,21 +28,10 @@ function authorizeUser() {
 
 function createUser() {
   const fillableProperties = ['login', 'email'];
-  const form = buildForm(fillableProperties);
-  $('main').append(form);
+  const url = `${apiUrl}users/`;
+  const method = 'POST';
 
-  form.submit((event) => {
-    event.preventDefault();
-
-    const formData = JSON.stringify({
-      login: $('#login').val(),
-      email: $('#email').val(),
-    });
-
-    makeAjaxRequest(`${apiUrl}users/`, 'POST', formData);
-
-    form.off('submit');
-  });
+  handleForm(fillableProperties, url, method);
 }
 
 function readUser() {

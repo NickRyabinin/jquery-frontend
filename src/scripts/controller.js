@@ -4,9 +4,23 @@
  */
 
 import apiUrl from './main.js';
-import { buildTable, setPaginationActions, buildPaginationButtons } from './builder.js';
-import { makeTableHeader, getCellValue } from './utils.js';
+import {
+  buildForm, buildTable, setPaginationActions, buildPaginationButtons,
+} from './builder.js';
+import { getFormData, makeTableHeader, getCellValue } from './utils.js';
+import makeAjaxRequest from './request.js';
 import { showTableHeader, showMessage } from './view.js';
+
+function handleForm(fillableProperties, url, method) {
+  const form = buildForm(fillableProperties);
+  $('main').append(form);
+  form.submit((event) => {
+    event.preventDefault();
+    const formData = getFormData(fillableProperties);
+    makeAjaxRequest(url, method, formData);
+    form.off();
+  });
+}
 
 function readEntity(id = '', page = 1, entity = '') {
   const query = (id === '') ? `?page=${page}` : '';
@@ -33,4 +47,4 @@ function readEntity(id = '', page = 1, entity = '') {
     });
 }
 
-export default readEntity;
+export { handleForm, readEntity };

@@ -5,7 +5,7 @@
 # jquery-frontend
 Frontend для [PHP CRUD API](https://github.com/NickRyabinin/crud-api) с использованием jQuery.
 
-jQuery, JavaScript, HTML, CSS, DOM, AJAX, API.
+jQuery, JavaScript, HTML, CSS, DOM, AJAX, API, ESLint, airbnb, HtmlHint, StyleLint.
 
 ## Установка
 
